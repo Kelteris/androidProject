@@ -14,6 +14,4 @@
         android:layout_height="wrap_content"
         android:text="Got 'EEEM"
         android:id="@+id/test" />
-
-
 </RelativeLayout>
