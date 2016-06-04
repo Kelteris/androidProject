@@ -9,9 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cs246.rmgroup.rmplanner.MainActivity">
 
-    <TextView
+
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Got 'EEEM"
-        android:id="@+id/test" />
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:text="Date: " />
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridView"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
