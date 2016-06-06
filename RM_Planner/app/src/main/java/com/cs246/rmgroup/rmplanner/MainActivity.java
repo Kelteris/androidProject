@@ -14,23 +14,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-
-/*public class Date {
-
-}
-
-public class Event {
-
-
-}
-
-public class Goal {
-
-}
-
-public class Reminder {
-    String name;
-    Date time;
-
-
-}*/
