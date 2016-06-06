@@ -10,6 +10,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Hate life right now
+
     }
 }
+
+/*public class Date {
+
+}
+
+public class Event {
+
+
+}
+
+public class Goal {
+
+}
+
+public class Reminder {
+    String name;
+    Date time;
+
+
+}*/
