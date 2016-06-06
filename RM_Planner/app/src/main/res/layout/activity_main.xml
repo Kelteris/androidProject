@@ -31,22 +31,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/editText"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:src="@drawable/drawBack">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="7"
+                android:text="7am"
                 android:id="@+id/textView"
                 android:layout_row="0"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:src="@drawable/drawBack"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lol"
+                android:layout_row="0"
+                android:layout_column="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="8"
+                android:text="8am"
                 android:id="@+id/textView2"
                 android:layout_row="1"
                 android:layout_column="0" />
@@ -250,13 +259,6 @@
                 android:id="@+id/textView18"
                 android:layout_row="17"
                 android:layout_column="0" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText2"
-                android:layout_row="0"
-                android:layout_column="1" />
 
         </GridLayout>
     </ScrollView>
