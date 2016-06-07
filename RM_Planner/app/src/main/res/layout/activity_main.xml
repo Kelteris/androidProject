@@ -20,20 +20,23 @@
         android:layout_alignParentStart="true"
         android:text="Date: " />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linLay1">
+
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="350dp"
+        android:layout_weight="1"
         android:id="@+id/scrollView"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"
         android:background="@drawable/draw_back">
 
         <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/editText"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="4dp">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,6 +54,13 @@
                 android:id="@+id/lol"
                 android:layout_row="0"
                 android:layout_column="1" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText2"
+                android:layout_row="0"
+                android:layout_column="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -261,15 +271,25 @@
                 android:layout_row="17"
                 android:layout_column="0" />
 
-        </GridLayout>
-    </ScrollView>
+            </GridLayout>
+        </ScrollView>
+
+        <EditText
+            android:id="@+id/notes"
+            android:hint="Notes"
+            android:gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="350dp"
+            android:layout_weight="1"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/draw_back"/>
+
+    </LinearLayout>
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/scrollView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
+        android:layout_below="@id/linLay1"/>
 
 </RelativeLayout>
