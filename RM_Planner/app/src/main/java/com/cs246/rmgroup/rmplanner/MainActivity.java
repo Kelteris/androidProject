@@ -2,16 +2,12 @@ package com.cs246.rmgroup.rmplanner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
+import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -23,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> adapter;
     FlyOutContainer root;
-    GridLayout gLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,26 +27,6 @@ public class MainActivity extends AppCompatActivity {
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
 
         this.setContentView(root);
-        /******************************************************/
-        //Apply drawable to all
-        gLayout = (GridLayout) findViewById(R.id.gridLayout);
-        //LinearLayout layout = (LinearLayout) findViewById(R.id.linearMain);
-        int count = 0;
-        count = gLayout.getChildCount();
-
-
-        System.out.print("WHY WON'T YOU RUN?? " + count);
-        for (int i = 0; i < count; i++) {
-            System.out.print("We've just iterated " + i);
-            View v = gLayout.getChildAt(i);
-            v.setBackgroundResource(R.drawable.draw_back);
-
-            if (gLayout.getChildAt(i) instanceof EditText) {
-                EditText e = (EditText) gLayout.getChildAt(i);
-                e.setBackgroundResource(R.drawable.draw_back);
-            }
-        }
-        /******************************************************/
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -66,34 +41,20 @@ public class MainActivity extends AppCompatActivity {
                 list);
 
         listView.setAdapter(adapter);
+
     }
 
-    public void toggleMenu(View v) {
+    public void toggleMenu(View v){
         this.root.toggleMenu();
     }
 
     public void calenderOnDateClick(View v) {
         DatePicker myDatePicker = (DatePicker) findViewById(R.id.datePicker);
-        String selectedDate = DateFormat.getDateInstance().format(myDatePicker.getCalendarView().getDate());
+        CalendarView calendarView = myDatePicker.getCalendarView();
+        String selectedDay = DateFormat.getDateInstance().format(calendarView.getDate());
         EditText editText = (EditText) findViewById(R.id.dateInput);
         if (editText != null) {
-            editText.setText("Aug, 12, 2015", TextView.BufferType.EDITABLE);
+            editText.setText(selectedDay, TextView.BufferType.EDITABLE);
         }
     }
-
-/*    //**
-     *
-     * @param datePicker
-     * @return a java.util.Date
-     *//*
-    public static java.util.Date getDateFromDatePicker(DatePicker datePicker) {
-        int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
-        int year =  datePicker.getYear();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-
-        return calendar.getTime();
-    }*/
 }
