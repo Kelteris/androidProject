@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
+    int[] hours = {7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12};
     ListView listView;
     ArrayAdapter<String> adapter;
     FlyOutContainer root;
@@ -28,10 +29,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
-
         this.setContentView(root);
+
+        //Setup gridLayout
+        for (int i = 0; i < hours.length; i++){
+
+        }
+
         /******************************************************/
         //Apply drawable to all
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
