@@ -2,9 +2,11 @@ package com.cs246.rmgroup.rmplanner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -23,19 +25,21 @@ public class MainActivity extends AppCompatActivity {
 
         /******************************************************/
         //Apply drawable to all
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.GridLayout);
-
+        //GridLayout layout = (GridLayout) findViewById(R.id.GridLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearMain);
+        int count = 0;
         try {
-            for (int i = 0; i < layout.getChildCount(); i++) {
-                View v = layout.getChildAt(i);
-
-                v.setBackgroundResource(R.drawable.draw_back);
-            }
+            count = layout.getChildCount();
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
 
+        System.out.print("WHY WON'T YOU RUN?? " + count);
+        for (int i = 0; i < count; i++) {
+            System.out.print("We've just iterated " + i);
+            View v = layout.getChildAt(i);
+            v.setBackgroundResource(R.drawable.draw_back);
+        }
         /******************************************************/
 
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
