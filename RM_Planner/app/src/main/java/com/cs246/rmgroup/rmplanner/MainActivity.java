@@ -8,10 +8,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
@@ -65,4 +70,29 @@ public class MainActivity extends AppCompatActivity {
     public void toggleMenu(View v) {
         this.root.toggleMenu();
     }
+
+    public void calenderOnDateClick(View v) {
+        DatePicker myDatePicker = (DatePicker) findViewById(R.id.datePicker);
+        String selectedDate = DateFormat.getDateInstance().format(myDatePicker.getCalendarView().getDate());
+        EditText editText = (EditText) findViewById(R.id.dateInput);
+        if (editText != null) {
+            editText.setText("Aug, 12, 2015", TextView.BufferType.EDITABLE);
+        }
+    }
+
+/*    //**
+     *
+     * @param datePicker
+     * @return a java.util.Date
+     *//*
+    public static java.util.Date getDateFromDatePicker(DatePicker datePicker) {
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year =  datePicker.getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime();
+    }*/
 }
