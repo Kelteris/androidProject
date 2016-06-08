@@ -23,33 +23,35 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> adapter;
     FlyOutContainer root;
+    GridLayout gLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
+
+        this.setContentView(root);
         /******************************************************/
         //Apply drawable to all
-        //GridLayout layout = (GridLayout) findViewById(R.id.GridLayout);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearMain);
+        gLayout = (GridLayout) findViewById(R.id.gridLayout);
+        //LinearLayout layout = (LinearLayout) findViewById(R.id.linearMain);
         int count = 0;
-        try {
-            count = layout.getChildCount();
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-        }
+        count = gLayout.getChildCount();
+
 
         System.out.print("WHY WON'T YOU RUN?? " + count);
         for (int i = 0; i < count; i++) {
             System.out.print("We've just iterated " + i);
-            View v = layout.getChildAt(i);
+            View v = gLayout.getChildAt(i);
             v.setBackgroundResource(R.drawable.draw_back);
+
+            if (gLayout.getChildAt(i) instanceof EditText) {
+                EditText e = (EditText) gLayout.getChildAt(i);
+                e.setBackgroundResource(R.drawable.draw_back);
+            }
         }
         /******************************************************/
-
-        this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
-
-        this.setContentView(root);
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 list);
 
         listView.setAdapter(adapter);
-
     }
 
     public void toggleMenu(View v) {

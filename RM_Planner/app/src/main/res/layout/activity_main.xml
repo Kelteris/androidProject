@@ -72,7 +72,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:id="@+id/GridLayout">
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="1dp"
+            android:id="@+id/gridLayout">
 
             <TextView
                 android:layout_width="wrap_content"
