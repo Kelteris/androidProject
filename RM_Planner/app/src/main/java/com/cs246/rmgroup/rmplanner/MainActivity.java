@@ -4,7 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 
@@ -17,6 +20,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /******************************************************/
+        //Apply drawable to all
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.GridLayout);
+
+        try {
+            for (int i = 0; i < layout.getChildCount(); i++) {
+                View v = layout.getChildAt(i);
+
+                v.setBackgroundResource(R.drawable.draw_back);
+            }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+
+        /******************************************************/
 
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
 
@@ -38,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void toggleMenu(View v){
+    public void toggleMenu(View v) {
         this.root.toggleMenu();
     }
 }
