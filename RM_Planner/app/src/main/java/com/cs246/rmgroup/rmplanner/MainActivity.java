@@ -1,9 +1,11 @@
 package com.cs246.rmgroup.rmplanner;
 
-import android.support.v7.app.ActionBar;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,12 +13,10 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     FlyOutContainer root;
     GridLayout gLayout = null;
+    static TextView dateView;
+    DatePicker dPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
         this.setContentView(root);
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
+        dateView = (TextView) findViewById(R.id.dateView);
+        dPicker = (DatePicker) findViewById(R.id.datePicker);
+        Calendar thisDay = Calendar.getInstance();
+        /*dPicker.init(thisDay.get(Calendar.YEAR),
+                    thisDay.get(Calendar.MONTH),
+                    thisDay.get(Calendar.DAY_OF_MONTH),
+                    new MyOnDateChangeListener());*/
+        dPicker.init(1993, 0, 21, new MyOnDateChangeListener());
 
         buildPlannerView();
 
@@ -52,14 +62,41 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    public void calenderOnDateClick(View v) {
-        DatePicker myDatePicker = (DatePicker) findViewById(R.id.datePicker);
-        String selectedDate = DateFormat.getDateInstance().format
-                (myDatePicker.getCalendarView().getDate());
-        EditText editText = (EditText) findViewById(R.id.dateInput);
-        if (editText != null) {
-            editText.setText("Aug, 12, 2015", TextView.BufferType.EDITABLE);
+    private class MyOnDateChangeListener implements DatePicker.OnDateChangedListener {
+        @Override
+        public void onDateChanged(DatePicker view, int year,
+                                  int monthOfYear, int dayOfMonth) {
+            String displayText = ("Date: "
+                    + (monthOfYear + 1) +
+                    "/" + dayOfMonth + "/" + year);
+            dateView.setText(displayText);
+            toggleMenu(null);
         }
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            String displayText = ("Selected Date: " + (month + 1) + "/" + day + "/" + year);
+            dateView.setText(displayText);
+        }
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     /*    //**
@@ -123,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
         int count = 0;
         count = gLayout.getChildCount();
         for (int i = 0; i < count; i++) {
-            System.out.print("We've just iterated " + i);
             View v = gLayout.getChildAt(i);
             v.setBackgroundResource(R.drawable.draw_back_left);
             if (gLayout.getChildAt(i) instanceof EditText) {
