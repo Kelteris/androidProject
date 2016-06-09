@@ -2,6 +2,9 @@ package com.cs246.rmgroup.rmplanner;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,17 +30,36 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     FlyOutContainer root;
     GridLayout gLayout = null;
+    LinearLayout leftLayout;
+    LinearLayout mainLayout;
     static TextView dateView;
     DatePicker dPicker;
+
+    public static void fixBackgroundRepeat(View view) {
+        view.setBackgroundResource(R.drawable.draw_main);
+        Drawable bg = view.getBackground();
+        if (bg != null) {
+            if (bg instanceof BitmapDrawable) {
+                BitmapDrawable bmp = (BitmapDrawable) bg;
+                bmp.mutate(); // make sure that we aren't sharing state anymore
+                bmp.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
         this.setContentView(root);
+        leftLayout = (LinearLayout) findViewById(R.id.sideLayout);
+        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
         dateView = (TextView) findViewById(R.id.dateView);
         dPicker = (DatePicker) findViewById(R.id.datePicker);
+        fixBackgroundRepeat(leftLayout);
+        fixBackgroundRepeat(mainLayout);
+
         Calendar thisDay = Calendar.getInstance();
         /*dPicker.init(thisDay.get(Calendar.YEAR),
                     thisDay.get(Calendar.MONTH),

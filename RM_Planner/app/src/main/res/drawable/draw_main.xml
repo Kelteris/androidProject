@@ -6,7 +6,10 @@
             <solid android:color="@color/colorBackground" />
         </shape>
     </item>
+
     <item>
-        <bitmap android:src="@drawable/rings_notebook" />
+        <bitmap android:src="@drawable/rings_notebook_left"
+            android:gravity="left"
+            android:tileModeY="repeat"/>
     </item>
 </layer-list>
