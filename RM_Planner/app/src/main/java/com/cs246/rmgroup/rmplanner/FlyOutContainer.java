@@ -1,9 +1,13 @@
 package com.cs246.rmgroup.rmplanner;
 
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.content.Context;
+import android.widget.Scroller;
 
 /**
  * Created by Chris on 6/7/2016.
@@ -18,11 +22,21 @@ public class FlyOutContainer extends LinearLayout {
     protected static final int menuMargin = 175;
 
     public enum menuState{
-        CLOSED, OPEN
+        CLOSED, OPEN, CLOSING, OPENING
     };
 
     protected int currentContentOffset = 0;
     protected menuState menuCurrentState = menuState.CLOSED;
+
+    //animation objects
+    protected Scroller menuAnimationScroller = new Scroller(this.getContext(),
+            new SmoothInterpolator());
+    protected Runnable menuAnimationRunnable = new AnimationRunnable();
+    protected Handler menuAnimationHandler = new Handler();
+
+    //animation constants
+    private static final int menuAnimationDuration = 1000;
+    private static final int menuAnimationPollingInterval = 16;
 
     public FlyOutContainer(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
@@ -58,19 +72,22 @@ public class FlyOutContainer extends LinearLayout {
     public void toggleMenu(){
         switch(this.menuCurrentState) {
             case CLOSED:
+                this.menuCurrentState = menuState.OPENING;
                 this.menu.setVisibility(View.VISIBLE);
-                this.currentContentOffset = this.getMenuWidth();
-                this.content.offsetLeftAndRight(currentContentOffset);
-                this.menuCurrentState = menuState.OPEN;
+                this.menuAnimationScroller.startScroll(0, 0, this.getMenuWidth(),
+                        0, menuAnimationDuration);
                 break;
             case OPEN:
-                this.content.offsetLeftAndRight(-currentContentOffset);
-                this.currentContentOffset = 0;
-                this.menuCurrentState = menuState.CLOSED;
-                this.menu.setVisibility(View.GONE);
+                this.menuCurrentState = menuState.CLOSING;
+                this.menuAnimationScroller.startScroll(this.currentContentOffset,
+                        0, -this.currentContentOffset, 0, menuAnimationDuration);
                 break;
+            default:
+                return;
         }
-        this.invalidate();
+
+        this.menuAnimationHandler.postDelayed(this.menuAnimationRunnable,
+                menuAnimationPollingInterval);
     }
 
     private int getMenuWidth(){
@@ -83,5 +100,55 @@ public class FlyOutContainer extends LinearLayout {
 
         this.menu.getLayoutParams().width = this.getWidth() - menuMargin;
         this.menu.getLayoutParams().height = this.getHeight();
+    }
+    private void adjustContentPosition(boolean isAnimationOngoing) {
+        int scrollerOffset = this.menuAnimationScroller.getCurrX();
+
+        this.content.offsetLeftAndRight(scrollerOffset
+                - this.currentContentOffset);
+
+        this.currentContentOffset = scrollerOffset;
+
+        this.invalidate();
+
+        if (isAnimationOngoing)
+            this.menuAnimationHandler.postDelayed(this.menuAnimationRunnable,
+                    menuAnimationPollingInterval);
+        else
+            this.onMenuTransitionComplete();
+    }
+
+    private void onMenuTransitionComplete() {
+        switch (this.menuCurrentState) {
+            case OPENING:
+                this.menuCurrentState = menuState.OPEN;
+                break;
+            case CLOSING:
+                this.menuCurrentState = menuState.CLOSED;
+                this.menu.setVisibility(View.GONE);
+                break;
+            default:
+                return;
+        }
+    }
+
+    protected class SmoothInterpolator implements Interpolator {
+
+        @Override
+        public float getInterpolation(float t) {
+            return (float)Math.pow(t-1, 5) + 1;
+        }
+
+    }
+
+    protected class AnimationRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            FlyOutContainer.this
+                    .adjustContentPosition(FlyOutContainer.this.menuAnimationScroller
+                            .computeScrollOffset());
+        }
+
     }
 }
