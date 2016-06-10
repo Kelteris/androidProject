@@ -11,6 +11,7 @@ public class ExampleUnitTest {
     Date date = new Date();
     Event event = new Event();
     FlyOutContainer flyOutContainer;
+    Reminder reminded = new Reminder();
 
     @Test
     public void addition_isCorrect() throws Exception {
@@ -45,5 +46,30 @@ public class ExampleUnitTest {
         assertEquals(30, date._day);
         assertEquals(4, date._month);
         assertEquals(2016, date._year);
+    }
+
+    @Test
+    public void goodReminder() throws Exception {
+        assertNotEquals("notDefault", reminded.getReminderType());
+        assertNotEquals(true, reminded._time._am);
+        assertNotEquals(0, reminded._time._day);
+        assertNotEquals(0, reminded._time._hour);
+        assertNotEquals(0, reminded._time._minute);
+        assertNotEquals(0, reminded._time._month);
+        assertNotEquals(0, reminded._time._year);
+    }
+
+    @Test
+    public void goodSetReminder() throws Exception {
+        reminded.setDate(2016,4,30,12,12,false);
+        reminded.setReminderType("HotDate");
+        assertEquals("HotDate", reminded.getReminderType());
+        assertEquals(false, reminded._time._am);
+        assertEquals(12, reminded._time._minute);
+        assertEquals(12, reminded._time._hour);
+        assertEquals(30, reminded._time._day);
+        assertEquals(4, reminded._time._month);
+        assertEquals(2016, reminded._time._year);
+
     }
 }
