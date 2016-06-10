@@ -8,8 +8,9 @@
 
     <item>
         <bitmap
-            android:src="@drawable/rings_notebook_right"
+            android:src="@drawable/rings_notebook_right_test"
             android:gravity="right"
-            android:dither="true"/>
+            android:dither="true"
+            />
     </item>
 </layer-list>

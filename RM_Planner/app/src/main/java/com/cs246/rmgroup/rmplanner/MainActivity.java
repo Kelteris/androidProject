@@ -2,18 +2,23 @@ package com.cs246.rmgroup.rmplanner;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -47,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
         dPicker = (DatePicker) findViewById(R.id.datePicker);
 
         Calendar thisDay = Calendar.getInstance();
-        /*dPicker.init(thisDay.get(Calendar.YEAR),
+        dPicker.init(thisDay.get(Calendar.YEAR),
                     thisDay.get(Calendar.MONTH),
                     thisDay.get(Calendar.DAY_OF_MONTH),
-                    new MyOnDateChangeListener());*/
-        dPicker.init(1993, 0, 21, new MyOnDateChangeListener());
+                    new MyOnDateChangeListener());
+        Log.d("DATE", Integer.toString(thisDay.get(Calendar.YEAR)) +
+        ", " + Integer.toString(thisDay.get(Calendar.MONTH)) +
+        ", " + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH)));
+        //dPicker.init(1993, 0, 21, new MyOnDateChangeListener());
 
         buildPlannerView();
 
@@ -103,30 +111,23 @@ public class MainActivity extends AppCompatActivity {
             dateView.setText(displayText);
         }
     }
+
     //Part of lame version
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    /*    //**
-     *
-     * @param datePicker
-     * @return a java.util.Date
-     *//*
-    public static java.util.Date getDateFromDatePicker(DatePicker datePicker) {
-        int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
-        int year =  datePicker.getYear();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-
-        return calendar.getTime();
-    }*/
-
     public void toggleMenu(View v) {
         this.root.toggleMenu();
+
+        ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
+        if (ib.getBackground().getConstantState().
+                equals(getResources().getDrawable(R.drawable.arrow_right).getConstantState())) {
+            ib.setBackgroundResource(R.drawable.arrow_left);
+        } else {
+            ib.setBackgroundResource(R.drawable.arrow_right);
+        }
     }
 
     void buildPlannerView() {
@@ -139,13 +140,14 @@ public class MainActivity extends AppCompatActivity {
          ***********************************/
         for (int i = 0; i < hours.length; i++) {
             GridLayout.LayoutParams params = new
-                    GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.LEFT),
+                    GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
                     GridLayout.spec(0, GridLayout.CENTER));
-            params.setMargins(10, 10, 10, 10);
+            params.setMargins(5, 0, 0, 0);
             params.setGravity(Gravity.FILL);
             TextView tv = new TextView(this);
             tv.setText(Integer.toString(hours[i]) + ((i < 5) ? "AM" : "PM"));
-            tv.setPadding(20, 20, 20, 20);
+            tv.setTextSize(pixelsToDp(35, this));
+            tv.setPadding(10,10,10,10);
             gLayout.addView(tv, params);
         }
 
@@ -161,7 +163,9 @@ public class MainActivity extends AppCompatActivity {
             et.setLayoutParams(new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
+            et.setTextSize(pixelsToDp(55, this));
             et.setText(" ");
+            et.setPadding(1, 3, 3, 5);
             gLayout.addView(et, params);
         }
 
@@ -178,5 +182,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         /******************************************************/
+    }
+
+    public static float pixelsToDp(float px, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return dp;
     }
 }
