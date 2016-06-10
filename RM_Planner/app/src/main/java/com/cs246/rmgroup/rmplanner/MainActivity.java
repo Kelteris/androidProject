@@ -35,18 +35,6 @@ public class MainActivity extends AppCompatActivity {
     static TextView dateView;
     DatePicker dPicker;
 
-    public static void fixBackgroundRepeat(View view) {
-        view.setBackgroundResource(R.drawable.draw_main);
-        Drawable bg = view.getBackground();
-        if (bg != null) {
-            if (bg instanceof BitmapDrawable) {
-                BitmapDrawable bmp = (BitmapDrawable) bg;
-                bmp.mutate(); // make sure that we aren't sharing state anymore
-                bmp.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
         dateView = (TextView) findViewById(R.id.dateView);
         dPicker = (DatePicker) findViewById(R.id.datePicker);
-        fixBackgroundRepeat(leftLayout);
-        fixBackgroundRepeat(mainLayout);
 
         Calendar thisDay = Calendar.getInstance();
         /*dPicker.init(thisDay.get(Calendar.YEAR),
@@ -84,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    //Fancy version that we'll use
     private class MyOnDateChangeListener implements DatePicker.OnDateChangedListener {
         @Override
         public void onDateChanged(DatePicker view, int year,
@@ -96,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Lame version
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         @Override
@@ -115,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             dateView.setText(displayText);
         }
     }
-
+    //Part of lame version
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");

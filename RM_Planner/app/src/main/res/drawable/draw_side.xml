@@ -10,7 +10,6 @@
         <bitmap
             android:src="@drawable/rings_notebook_right"
             android:gravity="right"
-            android:tileModeY="repeat"
             android:dither="true"/>
     </item>
 </layer-list>
