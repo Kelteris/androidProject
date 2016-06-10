@@ -21,8 +21,19 @@ public class ExampleUnitTest {
         assertNotEquals(0, date._am);
         assertNotEquals(0, date._day);
         assertNotEquals(0, date._hour);
+        assertNotEquals(0, date._minute);
         assertNotEquals(0, date._month);
         assertNotEquals(0, date._year);
     }
-    
+
+    @Test
+    public void goodSetDate() throws Exception{
+        date.setDate(2016,4,30,12,12,false);
+        assertEquals(false, date._am);
+        assertEquals(12, date._minute);
+        assertEquals(12, date._hour);
+        assertEquals(30, date._day);
+        assertEquals(4, date._month);
+        assertEquals(2016, date._year);
+    }
 }
