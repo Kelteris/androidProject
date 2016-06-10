@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     Date date = new Date();
+    Event event = new Event();
     FlyOutContainer flyOutContainer;
 
     @Test
@@ -26,6 +27,15 @@ public class ExampleUnitTest {
         assertNotEquals(0, date._year);
     }
 
+    @Test
+    public void showEvent() throws Exception {
+        assertNotEquals(event._name, null);
+    }
+
+    @Test
+    public void timeDate() throws Exception {
+        event.setDate(1992,12,2,4,39,true);
+    }
     @Test
     public void goodSetDate() throws Exception{
         date.setDate(2016,4,30,12,12,false);
