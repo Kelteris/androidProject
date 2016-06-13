@@ -109,7 +109,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:onClick="toggleMenu"
-                android:background="@drawable/arrow_right"/>
+                android:background="@drawable/android_arrow_right"/>
         </RelativeLayout>
 
 

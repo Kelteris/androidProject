@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
         if (ib.getBackground().getConstantState().
-                equals(getResources().getDrawable(R.drawable.arrow_right).getConstantState())) {
-            ib.setBackgroundResource(R.drawable.arrow_left);
+                equals(getResources().getDrawable(R.drawable.android_arrow_right).getConstantState())) {
+            ib.setBackgroundResource(R.drawable.android_arrow_left);
         } else {
-            ib.setBackgroundResource(R.drawable.arrow_right);
+            ib.setBackgroundResource(R.drawable.android_arrow_right);
         }
     }
 

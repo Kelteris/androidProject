@@ -7,9 +7,8 @@
     </item>
 
     <item>
-        <bitmap android:src="@drawable/rings_notebook_left"
+        <bitmap android:src="@drawable/rings_notebook_left_test"
             android:gravity="left"
-            android:dither="true"
-            android:tileModeY="repeat"/>
+            android:dither="true"/>
     </item>
 </layer-list>
