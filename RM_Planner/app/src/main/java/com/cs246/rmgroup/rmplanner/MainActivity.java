@@ -4,11 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -23,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -128,10 +123,10 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
         if (ib.getBackground().getConstantState().
-                equals(getResources().getDrawable(R.drawable.android_arrow_right).getConstantState())) {
-            ib.setBackgroundResource(R.drawable.android_arrow_left);
+                equals(getResources().getDrawable(R.drawable.arrow_left).getConstantState())) {
+            ib.setBackgroundResource(R.drawable.arrow_right);
         } else {
-            ib.setBackgroundResource(R.drawable.android_arrow_right);
+            ib.setBackgroundResource(R.drawable.arrow_left);
         }
     }
 
