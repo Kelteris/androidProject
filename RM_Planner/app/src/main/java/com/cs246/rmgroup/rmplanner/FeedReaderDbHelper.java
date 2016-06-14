@@ -4,6 +4,7 @@ package com.cs246.rmgroup.rmplanner;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
 /**
  * Created by Robert on 6/13/2016.
