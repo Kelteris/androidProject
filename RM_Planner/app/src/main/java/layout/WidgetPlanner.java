@@ -44,7 +44,7 @@ public class WidgetPlanner extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_planner);
+        /*RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_planner);
         views.setOnClickPendingIntent(R.id.button, pendingIntent);
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
 
@@ -53,7 +53,7 @@ public class WidgetPlanner extends AppWidgetProvider {
 
         /************************************
          * Bring in all hours in left column
-         ***********************************/
+         ***********************************
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new
                     GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
@@ -70,7 +70,7 @@ public class WidgetPlanner extends AppWidgetProvider {
 
         /*******************************
          * Bring in all editTexts
-         ******************************/
+         ******************************
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new
                     GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
@@ -86,7 +86,7 @@ public class WidgetPlanner extends AppWidgetProvider {
             gLayout.addView(et, params);
         }
 
-        /******************************************************/
+        /******************************************************
         //Apply drawable to all
         int count = 0;
         count = gLayout.getChildCount();
