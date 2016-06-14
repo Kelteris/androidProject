@@ -64,11 +64,9 @@ public class MainActivity extends AppCompatActivity {
         ", " + Integer.toString(thisDay.get(Calendar.MONTH)) +
         ", " + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH)));
         dateView.setText(getString(R.string.date_format,
-                new DateFormatSymbols().getMonths()[thisDay.get(Calendar.MONTH) -1],
+                new DateFormatSymbols().getMonths()[thisDay.get(Calendar.MONTH)],
                 thisDay.get(Calendar.DAY_OF_MONTH),
                 thisDay.get(Calendar.YEAR)));
-        //dateView.setText("Date: %s/%d/%d", Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
-        //"Date: " + (monthOfYear + 1) + "/" + dayOfMonth + "/" + year
 
         buildPlannerView();
 
@@ -92,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onDateChanged(DatePicker view, int year,
                                   int monthOfYear, int dayOfMonth) {
-            String displayText = ("Date: "
-                    + (monthOfYear + 1) +
-                    "/" + dayOfMonth + "/" + year);
-            dateView.setText(displayText);
+            dateView.setText(getString(R.string.date_format,
+                    new DateFormatSymbols().getMonths()[monthOfYear],
+                    dayOfMonth,
+                    year));
             toggleMenu(null);
         }
     }
@@ -116,8 +114,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            String displayText = ("Selected Date: " + (month + 1) + "/" + day + "/" + year);
-            dateView.setText(displayText);
+            //String displayText = ("Selected Date: " + (month + 1) + "/" + day + "/" + year);
+            //dateView.setText(displayText);
+            dateView.setText(getString(R.string.date_format,
+                    new DateFormatSymbols().getMonths()[month],
+                    day,
+                    year));
         }
     }
 
