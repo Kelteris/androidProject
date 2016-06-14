@@ -20,24 +20,28 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
+    boolean isMainActivity = true;
     int[] hours = {7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
     String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30",
             "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00",
             "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00"};
-    ListView listView;
+    static TextView dateView;
     ArrayAdapter<String> adapter;
     FlyOutContainer root;
+    ListView listView;
     GridLayout gLayout = null;
     LinearLayout leftLayout;
     LinearLayout mainLayout;
-    static TextView dateView;
     DatePicker dPicker;
 
     @Override
@@ -59,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("DATE", Integer.toString(thisDay.get(Calendar.YEAR)) +
         ", " + Integer.toString(thisDay.get(Calendar.MONTH)) +
         ", " + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH)));
-        //dPicker.init(1993, 0, 21, new MyOnDateChangeListener());
+        dateView.setText(getString(R.string.date_format,
+                new DateFormatSymbols().getMonths()[thisDay.get(Calendar.MONTH) -1],
+                thisDay.get(Calendar.DAY_OF_MONTH),
+                thisDay.get(Calendar.YEAR)));
+        //dateView.setText("Date: %s/%d/%d", Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
+        //"Date: " + (monthOfYear + 1) + "/" + dayOfMonth + "/" + year
 
         buildPlannerView();
 
@@ -120,10 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void toggleMenu(View v) {
         this.root.toggleMenu();
+        isMainActivity ^= true;
 
         ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
-        if (ib.getBackground().getConstantState().
-                equals(getResources().getDrawable(R.drawable.arrow_left).getConstantState())) {
+        if (isMainActivity) {
             ib.setBackgroundResource(R.drawable.arrow_right);
         } else {
             ib.setBackgroundResource(R.drawable.arrow_left);
