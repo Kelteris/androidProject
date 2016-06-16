@@ -4,7 +4,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             tv.setText(strHours[i]);
             tv.setTextSize(pixelsToDp(35, this));
             tv.setPadding(10,10,10,10);
+            tv.setId(i + 100);
             gLayout.addView(tv, params);
         }
 
@@ -176,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     (LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
             et.setTextSize(pixelsToDp(55, this));
-            et.setText(" ");
+            et.setText(null);
             et.setPadding(1, 3, 3, 5);
             gLayout.addView(et, params);
         }
@@ -188,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < count; i++) {
             View v = gLayout.getChildAt(i);
             v.setBackgroundResource(R.drawable.draw_back_left);
-            //v.setBackgroundColor(Integer.parseInt("ACACAC", 16) + (50 * i));
+
             if (gLayout.getChildAt(i) instanceof EditText) {
                 EditText e = (EditText) gLayout.getChildAt(i);
                 e.setBackgroundResource(R.drawable.draw_back);
