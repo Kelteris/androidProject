@@ -1,8 +1,10 @@
 package com.cs246.rmgroup.rmplanner;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -15,6 +17,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -63,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar thisDay = Calendar.getInstance();
         dPicker.init(thisDay.get(Calendar.YEAR),
-                    thisDay.get(Calendar.MONTH),
-                    thisDay.get(Calendar.DAY_OF_MONTH),
-                    new MyOnDateChangeListener());
+                thisDay.get(Calendar.MONTH),
+                thisDay.get(Calendar.DAY_OF_MONTH),
+                new MyOnDateChangeListener());
         Log.d("DATE", Integer.toString(thisDay.get(Calendar.YEAR)) +
-        ", " + Integer.toString(thisDay.get(Calendar.MONTH)) +
-        ", " + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH)));
+                ", " + Integer.toString(thisDay.get(Calendar.MONTH)) +
+                ", " + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH)));
         dateView.setText(getString(R.string.date_format,
                 new DateFormatSymbols().getMonths()[thisDay.get(Calendar.MONTH)],
                 thisDay.get(Calendar.DAY_OF_MONTH),
@@ -89,6 +93,40 @@ public class MainActivity extends AppCompatActivity {
                 list);
 
         listView.setAdapter(adapter);
+
+        final EditText taskEditText = new EditText(this);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Add a new task")
+                .setMessage("What do you want to do next?")
+                .setView(taskEditText)
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String task = String.valueOf(taskEditText.getText());
+                        Log.d("MAIN", "Task to add: " + task);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_task:
+                Log.d("MAIN", "Add a new task");
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     //Fancy version that we'll use
@@ -165,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             //tv.setText(Integer.toString(hours[i]) + ((i < 5) ? "AM" : "PM"));
             tv.setText(strHours[i]);
             tv.setTextSize(pixelsToDp(35, this));
-            tv.setPadding(10,10,10,10);
+            tv.setPadding(10, 10, 10, 10);
             tv.setId(i + 100);
             gLayout.addView(tv, params);
         }
@@ -204,10 +242,10 @@ public class MainActivity extends AppCompatActivity {
         /******************************************************/
     }
 
-    public static float pixelsToDp(float px, Context context){
+    public static float pixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
     }
 }
