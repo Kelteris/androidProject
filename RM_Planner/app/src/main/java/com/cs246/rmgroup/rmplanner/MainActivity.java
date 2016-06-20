@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -94,8 +95,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String task = String.valueOf(taskEditText.getText());
-                        if (task != null)
+                        if (task.length() > 0) {
                             list.add(task);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "NO CONTENT", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", null)
