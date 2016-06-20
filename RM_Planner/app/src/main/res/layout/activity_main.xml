@@ -120,7 +120,5 @@
                 android:onClick="addToList"
                 android:background="@drawable/plus_button"/>
         </RelativeLayout>
-
-
     </LinearLayout>
 </com.cs246.rmgroup.rmplanner.FlyOutContainer>

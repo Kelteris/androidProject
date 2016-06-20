@@ -17,9 +17,12 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -83,19 +86,21 @@ public class MainActivity extends AppCompatActivity {
 
     protected void addToList(View v) {
         final EditText taskEditText = new EditText(this);
+
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Add a new task")
-                .setMessage("Add ToDo")
                 .setView(taskEditText)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String task = String.valueOf(taskEditText.getText());
-                        list.add(task);
+                        if (task != null)
+                            list.add(task);
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
     }
 
