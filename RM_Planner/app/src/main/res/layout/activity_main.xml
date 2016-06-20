@@ -117,6 +117,7 @@
                 android:id="@+id/add_task"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
+                android:onClick="addToList"
                 android:background="@drawable/plus_button"/>
         </RelativeLayout>
 

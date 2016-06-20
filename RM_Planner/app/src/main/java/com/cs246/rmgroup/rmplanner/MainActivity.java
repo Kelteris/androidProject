@@ -79,54 +79,24 @@ public class MainActivity extends AppCompatActivity {
                 thisDay.get(Calendar.YEAR)));
 
         buildPlannerView();
+    }
 
-        listView = (ListView) findViewById(R.id.listView);
-
-        list.add("Pray");
-        list.add("Repent");
-        list.add("Give Stuff");
-        list.add("Be Happy");
-
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_selectable_list_item,
-                list);
-
-        listView.setAdapter(adapter);
-
+    protected void addToList(View v) {
         final EditText taskEditText = new EditText(this);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Add a new task")
-                .setMessage("What do you want to do next?")
+                .setMessage("Add ToDo")
                 .setView(taskEditText)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String task = String.valueOf(taskEditText.getText());
-                        Log.d("MAIN", "Task to add: " + task);
+                        list.add(task);
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
         dialog.show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_task:
-                Log.d("MAIN", "Add a new task");
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     //Fancy version that we'll use
@@ -240,6 +210,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         /******************************************************/
+
+        listView = (ListView) findViewById(R.id.list_todo);
+
+        adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_selectable_list_item,
+                list);
+
+        listView.setAdapter(adapter);
     }
 
     public static float pixelsToDp(float px, Context context) {
