@@ -8,7 +8,7 @@
 
     <item>
         <bitmap
-            android:src="@drawable/rings_notebook_right_test"
+            android:src="@drawable/mission_planner_right"
             android:gravity="right"
             android:dither="true"
             />

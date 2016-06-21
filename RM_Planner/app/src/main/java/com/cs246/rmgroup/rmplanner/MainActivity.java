@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         buildPlannerView();
     }
 
+    //How we add to the "to-do" list
     protected void addToList(View v) {
         final EditText taskEditText = new EditText(this);
 
