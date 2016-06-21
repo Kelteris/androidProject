@@ -203,7 +203,8 @@ public class MainActivity extends AppCompatActivity {
                             LinearLayout.LayoutParams.WRAP_CONTENT));
             et.setTextSize(pixelsToDp(55, this));
             et.setText(null);
-            et.setPadding(1, 3, 3, 5);
+            et.setPadding(10, 3, 3, 5);
+            //et.setPaddingRelative(10, 3, 3, 10);
             gLayout.addView(et, params);
         }
 
