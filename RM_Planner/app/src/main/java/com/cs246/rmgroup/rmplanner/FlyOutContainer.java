@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.content.Context;
 import android.widget.Scroller;
@@ -71,8 +72,10 @@ public class FlyOutContainer extends LinearLayout {
     }
 
     public void toggleMenu(){
+        ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
         switch(this.menuCurrentState) {
             case CLOSED:
+                ib.setBackgroundResource(R.drawable.arrow_left);
                 this.menuCurrentState = menuState.OPENING;
                 this.menu.setVisibility(View.VISIBLE);
                 this.menuAnimationScroller.startScroll(0, 0, this.getMenuWidth(),
@@ -80,6 +83,7 @@ public class FlyOutContainer extends LinearLayout {
                 Log.d("OPENING", "Changing menuState to OPENING");
                 break;
             case OPEN:
+                ib.setBackgroundResource(R.drawable.arrow_right);
                 this.menuCurrentState = menuState.CLOSING;
                 this.menuAnimationScroller.startScroll(this.currentContentOffset,
                         0, -this.currentContentOffset, 0, menuAnimationDuration);

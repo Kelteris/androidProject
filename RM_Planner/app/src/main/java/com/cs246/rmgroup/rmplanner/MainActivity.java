@@ -157,13 +157,6 @@ public class MainActivity extends AppCompatActivity {
     public void toggleMenu(View v) {
         this.root.toggleMenu();
         isMainActivity ^= true;
-
-        ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
-        if (isMainActivity) {
-            ib.setBackgroundResource(R.drawable.arrow_right);
-        } else {
-            ib.setBackgroundResource(R.drawable.arrow_left);
-        }
     }
 
     void buildPlannerView() {
