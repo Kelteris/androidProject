@@ -2,6 +2,7 @@ package com.cs246.rmgroup.rmplanner;
 
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
@@ -76,13 +77,16 @@ public class FlyOutContainer extends LinearLayout {
                 this.menu.setVisibility(View.VISIBLE);
                 this.menuAnimationScroller.startScroll(0, 0, this.getMenuWidth(),
                         0, menuAnimationDuration);
+                Log.d("OPENING", "Changing menuState to OPENING");
                 break;
             case OPEN:
                 this.menuCurrentState = menuState.CLOSING;
                 this.menuAnimationScroller.startScroll(this.currentContentOffset,
                         0, -this.currentContentOffset, 0, menuAnimationDuration);
+                Log.d("CLOSING", "Changing menuState to CLOSING");
                 break;
             default:
+                Log.i("INPROCESS", "TRYING TO CHANGE DURING PROCESS");
                 return;
         }
 
