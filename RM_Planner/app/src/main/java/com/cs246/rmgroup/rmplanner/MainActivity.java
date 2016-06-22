@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     void buildPlannerView() {
         //Setup gridLayout
+        Log.d("Left Column hour view", "Started creating the hour view");
         gLayout.setColumnCount(2);
         gLayout.setRowCount(strHours.length);
 
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
             tv.setPadding(10, 10, 10, 10);
             tv.setId(i + 100);
             gLayout.addView(tv, params);
+            Log.d("Left column hour view", "Created the hours of the day");
         }
 
         /*******************************
