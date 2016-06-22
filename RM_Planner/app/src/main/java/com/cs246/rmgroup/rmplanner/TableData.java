@@ -13,9 +13,10 @@ public class TableData {
 
     public static abstract class TableInfo implements BaseColumns {
 
-        public static final String _description = "description";
-        public static final String _databaseName = "activity";
-        public static final String _tableName = "activityInfo";
+        public static final String description = "description";
+        public static final String time = "time";
+        public static final String Database_Name = "activity";
+        public static final String Table_Name = "activityInfo";
     }
 
 }
