@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     //How we add to the "to-do" list
     protected void addToList(View v) {
         final EditText taskEditText = new EditText(this);
-
+        Log.i("created a diaolg", "creating box");
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Add a new task")
                 .setView(taskEditText)
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 .create();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
+        Log.i("created a dialog", "dialog showing");
     }
 
     //Fancy version that we'll use
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         /*******************************
          * Bring in all editTexts
          ******************************/
+        Log.e("Hours being created", "Right now");
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new
                     GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
