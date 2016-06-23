@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -20,6 +21,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -83,10 +85,11 @@ public class MainActivity extends AppCompatActivity {
                 thisDay.get(Calendar.YEAR)));
 
         buildPlannerView();
+        setUpListeners();
     }
 
     //How we add to the "to-do" list
-    protected void addToList(View v) {
+    public void addToList(View v) {
         final EditText taskEditText = new EditText(this);
         Log.i("created a diaolg", "creating box");
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -109,6 +112,37 @@ public class MainActivity extends AppCompatActivity {
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
         Log.i("created a dialog", "dialog showing");
+    }
+
+    //Swipe Gestures Listener Setup
+    private void setUpListeners () {
+        mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+            @Override
+            public void onSwipeRight() {
+                if (isMainActivity) {
+                    Log.d("SWIPE", "Swiping right!");
+                    toggleMenu(null);
+                }
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                if (!isMainActivity) {
+                    Log.d("SWIPE", "Swiping left!");
+                    toggleMenu(null);
+                }
+            }
+        });
+
+        leftLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+            @Override
+            public void onSwipeLeft() {
+                if (!isMainActivity) {
+                    Log.d("SWIPE", "Swiping left!");
+                    toggleMenu(null);
+                }
+            }
+        });
     }
 
     //Fancy version that we'll use

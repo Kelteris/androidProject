@@ -3,4 +3,5 @@
     <string name="date_format">Date: %1$s %2$d, %3$d</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="notes_hint">Add Notes Here...</string>
 </resources>
