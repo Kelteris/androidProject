@@ -241,8 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
         /******************************************************/
         //Apply drawable to all
-        int count = 0;
-        count = gLayout.getChildCount();
+        int count = gLayout.getChildCount();
         for (int i = 0; i < count; i++) {
             View v = gLayout.getChildAt(i);
             v.setBackgroundResource(R.drawable.draw_back_left);
