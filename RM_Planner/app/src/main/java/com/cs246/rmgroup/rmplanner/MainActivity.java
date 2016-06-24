@@ -45,7 +45,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
     boolean isMainActivity = true;
-    int[] hours = {7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
     String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30",
             "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00",
@@ -257,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
             if (gLayout.getChildAt(i) instanceof EditText) {
                 EditText e = (EditText) gLayout.getChildAt(i);
                 e.setBackgroundResource(R.drawable.draw_back);
+                e.setId(100 + i);
             }
         }
         /******************************************************/
@@ -274,7 +274,6 @@ public class MainActivity extends AppCompatActivity {
     public static float pixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return dp;
+        return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
