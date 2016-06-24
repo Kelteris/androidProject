@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout leftLayout;
     LinearLayout mainLayout;
     DatePicker dPicker;
+    Logging log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 thisDay.get(Calendar.DAY_OF_MONTH),
                 thisDay.get(Calendar.YEAR)));
 
+        log = Logging.getInstance();
+
         buildPlannerView();
         setUpListeners();
     }
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
     public void addToList(View v) {
         final EditText taskEditText = new EditText(this);
         Log.i("created a diaolg", "creating box");
+        String string = "created a dialog" + "creating box";
+        log.insertLog(string);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Add a new task")
                 .setView(taskEditText)
@@ -143,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Something needs to happen here
+        //gLayout.setOnFocusChangeListener(R.getViewById().onFocusChangeListener l);
     }
 
     //Fancy version that we'll use
