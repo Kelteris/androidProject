@@ -19,13 +19,14 @@ public class Logging extends Activity {
 
     public static Logging getInstance() {
         if(instance == null) {
+            Log.i("insert Log", "The instance is null");
             synchronized (Logging.class) {
                 if(instance == null) {
                     instance = new Logging();
+                    Log.i("insert Log", "The instance is no longer null");
                 }
             }
         }
-
         return instance;
     }
 
@@ -39,7 +40,7 @@ public class Logging extends Activity {
             outputStream.write(string.getBytes());
             outputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("insert Log", e.getMessage());
         }
     }
 }
