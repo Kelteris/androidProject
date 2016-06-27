@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         /************************************
          * Bring in all hours in left column
          ***********************************/
+        Log.d("BUILD", "Creating left column hours");
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new
                     GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
@@ -217,19 +218,23 @@ public class MainActivity extends AppCompatActivity {
             params.setMargins(5, 0, 0, 0);
             params.setGravity(Gravity.FILL);
             TextView tv = new TextView(this);
-            //tv.setText(Integer.toString(hours[i]) + ((i < 5) ? "AM" : "PM"));
             tv.setText(strHours[i]);
+            //tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             tv.setTextSize(pixelsToDp(35, this));
-            tv.setPadding(10, 10, 10, 10);
+            tv.setPadding(10, 15, 5, 10);
             tv.setId(i + 100);
+            //Set Drawable
+            tv.setBackgroundResource(R.drawable.draw_back_left);
+            Drawable mDrawable = tv.getResources().getDrawable(R.drawable.draw_back_left);
+            mDrawable.setColorFilter(new
+                    PorterDuffColorFilter(0xffffff,PorterDuff.Mode.MULTIPLY));
             gLayout.addView(tv, params);
-            Log.d("Left column hour view", "Created the hours of the day");
         }
 
         /*******************************
          * Bring in all editTexts
          ******************************/
-        Log.e("Hours being created", "Right now");
+        Log.e("BUILD", "Entering EditTexts");
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new
                     GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
@@ -242,32 +247,16 @@ public class MainActivity extends AppCompatActivity {
             et.setTextSize(pixelsToDp(55, this));
             et.setText(null);
             et.setPadding(10, 3, 3, 5);
-            //et.setPaddingRelative(10, 3, 3, 10);
+            //Set Drawable
+            et.setBackgroundResource(R.drawable.draw_back);
             gLayout.addView(et, params);
         }
 
-        /******************************************************/
-        //Apply drawable to all
-        int count = gLayout.getChildCount();
-        for (int i = 0; i < count; i++) {
-            View v = gLayout.getChildAt(i);
-            v.setBackgroundResource(R.drawable.draw_back_left);
-
-            if (gLayout.getChildAt(i) instanceof EditText) {
-                EditText e = (EditText) gLayout.getChildAt(i);
-                e.setBackgroundResource(R.drawable.draw_back);
-                e.setId(100 + i);
-            }
-        }
-        /******************************************************/
-
         listView = (ListView) findViewById(R.id.list_todo);
-
         adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_selectable_list_item,
                 list);
-
         listView.setAdapter(adapter);
     }
 
