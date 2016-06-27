@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     //How we add to the "to-do" list
     public void addToList(View v) {
         final EditText taskEditText = new EditText(this);
-        Log.i("created a diaolg", "creating box");
+        Log.i("created a dialog", "creating box");
         String string = "created a dialog" + "creating box";
         log.insertLog(string);
         AlertDialog dialog = new AlertDialog.Builder(this)
