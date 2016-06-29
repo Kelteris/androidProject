@@ -40,12 +40,32 @@ public class FlyOutContainer extends LinearLayout {
     private static final int menuAnimationDuration = 300;
     private static final int menuAnimationPollingInterval = 16;
 
+    /**
+     * Constructor
+     * @author Chris Simmons
+     * @param context
+     * @param attrs
+     * @param defStyle
+     */
     public FlyOutContainer(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
     }
+
+    /**
+     * Construtor
+     * @author Chris Simmons
+     * @param context
+     * @param attrs
+     */
     public FlyOutContainer(Context context, AttributeSet attrs){
         super(context, attrs);
     }
+
+    /**
+     * Constructor
+     * @author
+     * @param context
+     */
     public FlyOutContainer(Context context){
         super(context);
     }
@@ -71,6 +91,10 @@ public class FlyOutContainer extends LinearLayout {
                 right + this.currentContentOffset, bottom);
     }
 
+    /**
+     * switches the arrows between left facing and right facing
+     * @author Chris Simmons
+     */
     public void toggleMenu(){
         ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
         switch(this.menuCurrentState) {

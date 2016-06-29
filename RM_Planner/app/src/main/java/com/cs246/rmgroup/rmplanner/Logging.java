@@ -17,6 +17,10 @@ public class Logging extends Activity {
     FileOutputStream outputStream;
     String filename = "debuggedInfo.txt";
 
+    /**
+     * Returns the instantiated instance of logging.
+     * @return
+     */
     public static Logging getInstance() {
         if(instance == null) {
             Log.i("insert Log", "The instance is null");
@@ -34,6 +38,10 @@ public class Logging extends Activity {
 
     }
 
+    /**
+     * inserts a string into a file for permanent storage.
+     * @param string
+     */
     public void insertLog(String string) {
         try {
             outputStream = getApplicationContext().openFileOutput(filename, Context.MODE_APPEND);

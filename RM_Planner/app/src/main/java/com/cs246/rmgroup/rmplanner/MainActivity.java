@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //How we add to the "to-do" list
+
+    /**
+     * Adds goals to the "to-do" list
+     * @author Travis Confer
+     * @param v
+     */
     public void addToList(View v) {
         final EditText taskEditText = new EditText(this);
         Log.i("created a dialog", "creating box");
@@ -196,11 +202,21 @@ public class MainActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    /**
+     * Switches between FlyOutContainer and MainActivity
+     * @author Chris Simmons
+     * @param v
+     */
     public void toggleMenu(View v) {
         this.root.toggleMenu();
         isMainActivity ^= true;
     }
 
+    /**
+     * Builds the hourly view, and the reminder option
+     * @author Travis Confer
+     * @author Asa Skousen
+     */
     void buildPlannerView() {
         //Setup gridLayout
         Log.d("Left Column hour view", "Started creating the hour view");
@@ -260,6 +276,12 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    /**
+     * converts from pixels to Dp.
+     * @param px
+     * @param context
+     * @return
+     */
     public static float pixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();

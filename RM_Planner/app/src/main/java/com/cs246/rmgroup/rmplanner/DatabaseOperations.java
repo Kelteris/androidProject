@@ -22,16 +22,35 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
 
     @Override
+    /**
+     * constructor
+     * @author Robert Dickerson
+     * @param sdb
+     */
     public void onCreate(SQLiteDatabase sdb) {
         sdb.execSQL(CREATE_QUERY);
         Log.d("Database operations", "Table created");
     }
 
     @Override
+    /**
+     * onUpgrade updates the database to the new version
+     * @author Robert Dickerson
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
+    /**
+     * stores informational strings with the time into a database
+     * @author Robert Dickerson
+     * @param dop
+     * @param description
+     * @param time
+     */
     public void putInformation(DatabaseOperations dop, String description, String time) {
         SQLiteDatabase SQ = dop.getWritableDatabase();
         ContentValues cv = new ContentValues();
