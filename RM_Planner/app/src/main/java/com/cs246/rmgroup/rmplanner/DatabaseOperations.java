@@ -23,7 +23,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
     @Override
     /**
-     * constructor
+     * constructor for database
      * @author Robert Dickerson
      * @param sdb
      */
