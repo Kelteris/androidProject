@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Builds the hourly view, and the reminder option
+     * Builds the hourly view, and the reminder option for added benefit
      * @author Travis Confer
      * @author Asa Skousen
      */
