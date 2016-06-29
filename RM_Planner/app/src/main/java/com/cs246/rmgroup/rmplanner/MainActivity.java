@@ -10,7 +10,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -243,10 +246,11 @@ public class MainActivity extends AppCompatActivity {
             tv.setPadding(10, 15, 5, 10);
             tv.setId(i + 100);
             //Set Drawable
-            tv.setBackgroundResource(R.drawable.draw_back_left);
-            Drawable mDrawable = tv.getResources().getDrawable(R.drawable.draw_back_left);
-            mDrawable.setColorFilter(new
-                    PorterDuffColorFilter(0xffffff,PorterDuff.Mode.MULTIPLY));
+            Drawable background = ResourcesCompat.getDrawable(getResources(),
+                    R.drawable.draw_back_left, null);
+            int color = ContextCompat.getColor(tv.getContext(), R.color.colorMorning);
+            background.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+            tv.setBackground(background);
             gLayout.addView(tv, params);
         }
 
