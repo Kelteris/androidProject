@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout mainLayout;
     DatePicker dPicker;
     Logging log;
+    EditText notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
         dateView = (TextView) findViewById(R.id.dateView);
         dPicker = (DatePicker) findViewById(R.id.datePicker);
+
+        notes = (EditText) findViewById(R.id.notes);
 
         Calendar thisDay = Calendar.getInstance();
         dPicker.init(thisDay.get(Calendar.YEAR),
