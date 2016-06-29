@@ -92,7 +92,7 @@ public class FlyOutContainer extends LinearLayout {
     }
 
     /**
-     * switches the arrows between left facing and right facing
+     * switches the arrows from left facing and right facing
      * @author Chris Simmons
      */
     public void toggleMenu(){

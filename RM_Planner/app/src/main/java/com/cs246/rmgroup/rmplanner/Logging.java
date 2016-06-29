@@ -18,7 +18,7 @@ public class Logging extends Activity {
     String filename = "debuggedInfo.txt";
 
     /**
-     * Returns the instantiated instance of logging.
+     * Returns the instantiated instance of logging
      * @return
      */
     public static Logging getInstance() {
@@ -39,7 +39,7 @@ public class Logging extends Activity {
     }
 
     /**
-     * inserts a string into a file for permanent storage.
+     * inserts a string into a file for permanent storage
      * @param string
      */
     public void insertLog(String string) {
