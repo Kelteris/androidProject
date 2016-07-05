@@ -4,4 +4,7 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="notes_hint">Add Notes Here...</string>
+    <string name="add_string">addString</string>
+    <string name="find_string">findString</string>
+    <string name="delete_string">deleteString</string>
 </resources>

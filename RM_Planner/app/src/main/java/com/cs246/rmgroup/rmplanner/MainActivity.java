@@ -162,26 +162,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //notes listener thing TextWatcher
-        notes.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        // Something needs to happen here
-        //gLayout.setOnFocusChangeListener(R.getViewById().onFocusChangeListener l);
     }
 
     //Fancy version that we'll use
@@ -314,4 +295,35 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
+
+    //notes listener thing TextWatcher
+    /*notes.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+
+            String currentDate = Integer.toString(thisDay.get(Calendar.YEAR)) +
+                    "-" + Integer.toString(thisDay.get(Calendar.MONTH)) +
+                    "-" + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH));
+
+            Note note = new Note(productBox.getText().toString(), quantity/* descirption  and data*///);
+
+            /*dbHandler.addProduct(product);
+            productBox.setText("");
+            quantityBox.setText("");
+        }
+    });*/
+
+    // Something needs to happen here
+    //gLayout.setOnFocusChangeListener(R.getViewById().onFocusChangeListener l);
 }

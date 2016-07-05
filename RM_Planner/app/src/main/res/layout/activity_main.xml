@@ -102,6 +102,15 @@
                 android:layout_toEndOf="@+id/menuButton"/>
 
             <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/add_task"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:onClick="addToList"
+                android:background="@drawable/plus_button"/>
+
+            <ImageButton
                 android:id="@+id/menuButton"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
@@ -111,14 +120,7 @@
                 android:onClick="toggleMenu"
                 android:background="@drawable/arrow_right"/>
 
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/add_task"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:onClick="addToList"
-                android:background="@drawable/plus_button"/>
+
         </RelativeLayout>
     </LinearLayout>
 </com.cs246.rmgroup.rmplanner.FlyOutContainer>
