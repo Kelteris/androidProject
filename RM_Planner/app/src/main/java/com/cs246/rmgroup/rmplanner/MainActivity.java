@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                         ContextCompat.getColor(tv.getContext(), R.color.colorNoon),
                         ratio);
             }
-
+            //Blend background
             background.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             tv.setBackground(background);
             gLayout.addView(tv, params);
@@ -307,15 +307,16 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+
     public static int mixTwoColors( int color1, int color2, float amount )
     {
+        //Bitshift values for each hexColor
         final byte ALPHA_CHANNEL = 24;
         final byte RED_CHANNEL   = 16;
         final byte GREEN_CHANNEL =  8;
         final byte BLUE_CHANNEL  =  0;
 
         final float inverseAmount = 1.0f - amount;
-
         int a = ((int)(((float)(color1 >> ALPHA_CHANNEL & 0xff )*amount) +
                 ((float)(color2 >> ALPHA_CHANNEL & 0xff )*inverseAmount))) & 0xff;
         int r = ((int)(((float)(color1 >> RED_CHANNEL & 0xff )*amount) +
