@@ -10,6 +10,9 @@ public class Event {
     private String _description;
     private int _hour;
 
+    public Event() {
+    }
+
     public Event(String _day, String _description, int _hour) {
         this._day = _day;
         this._description = _description;

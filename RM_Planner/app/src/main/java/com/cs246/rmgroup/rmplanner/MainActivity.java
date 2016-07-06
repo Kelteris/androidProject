@@ -430,6 +430,31 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.deleteNote(dateView.getText().toString());
     }
 
+    public void lookupEvent(View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+
+        Event event = dbHandler.findEvent(dateView.getText().toString());
+        /*if (event != null) {
+            notes.setText(String.valueOf(event.get_description()));
+        } else {
+            notes.setText(null);
+        }*/
+    }
+
+    public void newEvent(View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        //Event event = new Event(dateView.getText().toString(), notes.getText().toString(),
+        //        index of hour array/* this will be the hour for the event*/);
+        //dbHandler.addNote(event);
+    }
+
+    public void removeEvent(View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null,
+                null, 1);
+        dbHandler.deleteNote(dateView.getText().toString()/*, index of hour array this will be the hour for the event*/);
+    }
+
+
 
     //notes listener thing TextWatcher
     /*notes.addTextChangedListener(new TextWatcher() {
