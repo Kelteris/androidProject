@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
             "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00"};
     static TextView dateView;
+    static Context baseContext;
+    static EditText notes;
+    static Calendar currentDay;
     ArrayAdapter<String> adapter;
     FlyOutContainer root;
     ListView listView;
@@ -68,32 +71,31 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout mainLayout;
     DatePicker dPicker;
     Logging log;
-    EditText notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
         this.setContentView(root);
+        baseContext = this.getApplicationContext();
         leftLayout = (LinearLayout) findViewById(R.id.sideLayout);
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
         dateView = (TextView) findViewById(R.id.dateView);
         dPicker = (DatePicker) findViewById(R.id.datePicker);
         notes = (EditText) findViewById(R.id.notes);
-
-        Calendar thisDay = Calendar.getInstance();
-        dPicker.init(thisDay.get(Calendar.YEAR),
-                thisDay.get(Calendar.MONTH),
-                thisDay.get(Calendar.DAY_OF_MONTH),
+        currentDay = Calendar.getInstance();
+        dPicker.init(currentDay.get(Calendar.YEAR),
+                currentDay.get(Calendar.MONTH),
+                currentDay.get(Calendar.DAY_OF_MONTH),
                 new MyOnDateChangeListener());
-        Log.d("DATE", Integer.toString(thisDay.get(Calendar.YEAR)) +
-                ", " + Integer.toString(thisDay.get(Calendar.MONTH)) +
-                ", " + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH)));
+        Log.d("DATE", Integer.toString(currentDay.get(Calendar.YEAR)) +
+                ", " + Integer.toString(currentDay.get(Calendar.MONTH)) +
+                ", " + Integer.toString(currentDay.get(Calendar.DAY_OF_MONTH)));
         dateView.setText(getString(R.string.date_format,
-                new DateFormatSymbols().getMonths()[thisDay.get(Calendar.MONTH)],
-                thisDay.get(Calendar.DAY_OF_MONTH),
-                thisDay.get(Calendar.YEAR)));
+                new DateFormatSymbols().getMonths()[currentDay.get(Calendar.MONTH)],
+                currentDay.get(Calendar.DAY_OF_MONTH),
+                currentDay.get(Calendar.YEAR)));
 
         log = Logging.getInstance();
 
@@ -200,12 +202,9 @@ public class MainActivity extends AppCompatActivity {
             implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
+            int year = currentDay.get(Calendar.YEAR);
+            int month = currentDay.get(Calendar.MONTH);
+            int day = currentDay.get(Calendar.DAY_OF_MONTH);
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
@@ -215,7 +214,8 @@ public class MainActivity extends AppCompatActivity {
                     new DateFormatSymbols().getMonths()[month],
                     day,
                     year));
-            //lookupNote(null);
+            currentDay.set(year, month, day);
+            lookupNote(null);
         }
     }
 
@@ -402,8 +402,8 @@ public class MainActivity extends AppCompatActivity {
         newNote(null);
     }
 
-    public void lookupNote(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+    public static void lookupNote(View view) {
+        MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 1);
 
         Note note = dbHandler.findNote(dateView.getText().toString());
         if (note != null) {
