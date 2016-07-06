@@ -306,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
             et.setText(null);
             et.setPadding(10, 3, 3, 5);
             et.setId(i + 300);
+            et.setEms(8);
             // prevents the editText from pushing the button out of view, but doesn't do anything else
             et.setMaxWidth(10);
             //Set Drawable
@@ -316,14 +317,7 @@ public class MainActivity extends AppCompatActivity {
                     // only checks if the line is full on focusChange, not as soon as anything is typed in.
                     if (tmpBtn != null && hasFocus) {
                         tmpBtn.setVisibility(View.VISIBLE);
-                        Log.d("COG", "Detected a focus change"); // I want to add a popup menu here
-                        // so this is what I think needs to happen. I need to make gLayout columns three wide, and set
-                        // the last little bit to hold the options popup Menu, which is really a button that looks like a gear
-                        // By default, I will set their isVisible property to false. When I focus on the EditText, I will change the
-                        // options popup menu isVisible to true. I'm not sure how I will do this, since the editText onFocusChange
-                        // doesn't have this option. I may have to create a custom onFocusChange by extending the current
-                        // setOnFocusChangeListener. That SHOULD get me to the next point, when I have to create and use a
-                        // reminder class or something similar.
+                        Log.d("COG", "Detected a focus change");
                     } else if (tmpBtn != null) {
                         tmpBtn.setVisibility(View.GONE);
                         Log.d("COG", "Lost focus");
@@ -341,18 +335,19 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new GridLayout.LayoutParams(
                     GridLayout.spec(i, GridLayout.CENTER),
-                    GridLayout.spec(2, GridLayout.RIGHT));
+                    GridLayout.spec(1, GridLayout.CENTER));
             params.setMargins(0, 0, 0, 0);
-            params.setGravity(Gravity.BOTTOM);
+            params.setGravity(Gravity.FILL_VERTICAL);
             ImageButton btn = new ImageButton(this);
             btn.setLayoutParams(new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
             btn.setPadding(0, 0, 0, 0);
             btn.setId(i + 200);
-            //btn.setBackgroundColor(Color.WHITE);
+            btn.setBackgroundColor(Color.TRANSPARENT);
+
             //btn.setBackgroundResource(R.drawable.gear_option);
-            btn.setImageResource(R.drawable.cog);
+            btn.setImageResource(R.drawable.gear_option);
             gLayout.addView(btn, params);
             btn.setVisibility(View.GONE);
 
