@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TestNotes</string>
+    <string name="add_string">addString</string>
+    <string name="find_string">findString</string>
+    <string name="delete_string">deleteString</string>
+    <string name="date_hint">put date here</string>
+    <string name="description_hint">put description</string>
+    <string name="date_format">Date: %1$s %2$d, %3$d</string>
+</resources>
