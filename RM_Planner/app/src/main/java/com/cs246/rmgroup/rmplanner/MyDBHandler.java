@@ -17,6 +17,11 @@ public class MyDBHandler extends SQLiteOpenHelper{
     private static final String NOTE_ID = "_id";
     private static final String NOTE_DAY = "day";
     private static final String NOTE_DESCRIPTION = "description";
+    private static final String TABLE_EVENT = "note";
+    private static final String EVENT_ID = "_id";
+    private static final String EVENT_DAY = "day";
+    private static final String EVENT_DESCRIPTION = "description";
+    private static final String Event_HOUR = "hour";
 
     /*private static final String DATABASE_NAME = "productDB.db";
     private static final String TABLE_PRODUCTS = "products";

@@ -3,28 +3,17 @@ package com.cs246.rmgroup.rmplanner;
 /**
  * Created by Asa on 6/6/2016.
  */
-public class Event implements TableCreator {
+public class Event {
 
-    //private static final String TABLE_EVENTS = "events";
     private int _id;
-    private String description;
-    private Date _time;
+    private String _day;
+    private String _description;
+    private int _hour;
 
-    public Event(int _id, String description, Date _time) {
-        this._id = _id;
-        this.description = description;
-        this._time = _time;
-    }
-
-
-    @Override
-    public void setDate(int year, int month, int day, int hour, int minute, boolean am) {
-
-    }
-
-    @Override
-    public void store() {
-
+    public Event(String _day, String _description, int _hour) {
+        this._day = _day;
+        this._description = _description;
+        this._hour = _hour;
     }
 
     public int get_id() {
@@ -35,19 +24,27 @@ public class Event implements TableCreator {
         this._id = _id;
     }
 
-    public String getDescription() {
-        return description;
+    public String get_day() {
+        return _day;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void set_day(String _day) {
+        this._day = _day;
     }
 
-    public Date get_time() {
-        return _time;
+    public String get_description() {
+        return _description;
     }
 
-    public void set_time(Date _time) {
-        this._time = _time;
+    public void set_description(String _description) {
+        this._description = _description;
+    }
+
+    public int get_hour() {
+        return _hour;
+    }
+
+    public void set_hour(int _hour) {
+        this._hour = _hour;
     }
 }
