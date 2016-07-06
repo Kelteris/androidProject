@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     TextView idView;
     TextView dayView;
     TextView descriptionView;
-    EditText dayBox;
+    static EditText dayBox;
     EditText descriptionBox;
     static TextView dateView;
 
@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
-        //EditText dayBox1;
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -70,13 +68,10 @@ public class MainActivity extends AppCompatActivity {
                     new DateFormatSymbols().getMonths()[month],
                     day,
                     year));
-            //dayBox1 = (EditText) findViewById(R.id.day);
-            //Calendar thisDay = Calendar.getInstance();
-            /*dayBox1.setText(getString(R.string.date_format,
-                    new DateFormatSymbols().getMonths()[thisDay.get(Calendar.MONTH)],
-                    thisDay.get(Calendar.DAY_OF_MONTH),
-                    thisDay.get(Calendar.YEAR)));*/
-
+            dayBox.setText(getString(R.string.date_format,
+                    new DateFormatSymbols().getMonths()[month],
+                    day,
+                    year));
         }
     }
 

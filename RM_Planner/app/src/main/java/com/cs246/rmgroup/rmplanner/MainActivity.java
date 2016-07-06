@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
         dateView = (TextView) findViewById(R.id.dateView);
         dPicker = (DatePicker) findViewById(R.id.datePicker);
-
         notes = (EditText) findViewById(R.id.notes);
 
         Calendar thisDay = Calendar.getInstance();
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         buildPlannerView();
         setUpListeners();
+        lookupNote(null);
     }
 
     //How we add to the "to-do" list
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     dayOfMonth,
                     year));
             toggleMenu(null);
+            lookupNote(null);
         }
     }
 
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     new DateFormatSymbols().getMonths()[month],
                     day,
                     year));
+            //lookupNote(null);
         }
     }
 
@@ -249,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
             params.setGravity(Gravity.FILL);
             TextView tv = new TextView(this);
             tv.setText(strHours[i]);
-            Log.d("RATIO", Float.toString(ratio));
             //tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             tv.setTextSize(pixelsToDp(35, this));
             tv.setTextColor(Color.BLACK);
@@ -341,6 +342,35 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
+
+    public void saveData(View view){
+        removeNote(null);
+        newNote(null);
+    }
+
+    public void lookupNote (View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+
+        Note note = dbHandler.findNote(dateView.getText().toString());
+        if (note != null) {
+            notes.setText(String.valueOf(note.get_description()));
+        } else {
+            notes.setText(null);
+        }
+    }
+
+    public void newNote (View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Note note = new Note (dateView.getText().toString(), notes.getText().toString());
+        dbHandler.addNote(note);
+    }
+
+    public void removeNote (View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null,
+                null, 1);
+        dbHandler.deleteNote(dateView.getText().toString());
+    }
+
 
     //notes listener thing TextWatcher
     /*notes.addTextChangedListener(new TextWatcher() {

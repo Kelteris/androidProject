@@ -107,7 +107,7 @@
                 android:id="@+id/add_task"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:onClick="addToList"
+                android:onClick="saveData"
                 android:background="@drawable/plus_button"/>
 
             <ImageButton

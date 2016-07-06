@@ -1,26 +1,22 @@
 package com.cs246.rmgroup.rmplanner;
 
 /**
- * Created by Robert on 6/29/2016.
+ * Created by Robert on 7/2/2016.
  */
 public class Note {
 
     private int _id;
-    private String descirption = "add a note";
-    private String day= "";
+    private String _day;
+    private String _description;
+
 
     public Note() {
     }
 
-    public Note(int _id, String descirption) {
-        this._id = _id;
-        this.descirption = descirption;
-    }
+    public Note(String _day, String _description) {
+        this._day = _day;
+        this._description = _description;
 
-    public Note(int _id, String descirption, String date) {
-        this._id = _id;
-        this.descirption = descirption;
-        this.day = day;
     }
 
     public int getID() {
@@ -31,19 +27,20 @@ public class Note {
         this._id = _id;
     }
 
-    public String getDescirption() {
-        return descirption;
+    public String get_day() {
+        return _day;
     }
 
-    public void setDescirption(String descirption) {
-        this.descirption = descirption;
+    public void set_day(String _day) {
+        this._day = _day;
     }
 
-    public String getDay() {
-        return day;
+    public String get_description() {
+        return _description;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void set_description(String _description) {
+        this._description = _description;
     }
+
 }
