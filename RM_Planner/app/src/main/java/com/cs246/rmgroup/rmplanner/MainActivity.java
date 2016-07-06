@@ -26,6 +26,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -40,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -234,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
     void buildPlannerView() {
         //Setup gridLayout
         Log.d("Left Column hour view", "Started creating the hour view");
-        gLayout.setColumnCount(2);
+        gLayout.setColumnCount(3);
         gLayout.setRowCount(strHours.length);
 
         /************************************
@@ -295,10 +297,61 @@ public class MainActivity extends AppCompatActivity {
             et.setTextSize(pixelsToDp(55, this));
             et.setText(null);
             et.setPadding(10, 3, 3, 5);
+            et.setId(i + 300);
+            // prevents the editText from pushing the button out of view, but doesn't do anything else
+            et.setMaxWidth(10);
             //Set Drawable
             et.setBackgroundResource(R.drawable.draw_back);
+            et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                public void onFocusChange(View v, boolean hasFocus) {
+                    ImageButton tmpBtn = (ImageButton) findViewById(v.getId() - 100);
+                    // only checks if the line is full on focusChange, not as soon as anything is typed in.
+                    if (tmpBtn != null && hasFocus) {
+                        tmpBtn.setVisibility(View.VISIBLE);
+                        Log.d("editText on focus", "et detected a focus change"); // I want to add a popup menu here
+                        // so this is what I think needs to happen. I need to make gLayout columns three wide, and set
+                        // the last little bit to hold the options popup Menu, which is really a button that looks like a gear
+                        // By default, I will set their isVisible property to false. When I focus on the EditText, I will change the
+                        // options popup menu isVisible to true. I'm not sure how I will do this, since the editText onFocusChange
+                        // doesn't have this option. I may have to create a custom onFocusChange by extending the current
+                        // setOnFocusChangeListener. That SHOULD get me to the next point, when I have to create and use a
+                        // reminder class or something similar.
+                    } else if (tmpBtn != null){
+                        tmpBtn.setVisibility(View.GONE);
+                        Log.d("editText on focus", "et lost focus");
+                    }
+                    else {
+                        // do nothing, the object is null
+                    }
+                }
+            });
             gLayout.addView(et, params);
         }
+
+        /*******************************************
+         * Creates the option menu button
+         ******************************************/
+        for(int i = 0; i < strHours.length; i++) {
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams(
+                    GridLayout.spec(i, GridLayout.CENTER),
+                    GridLayout.spec(2, GridLayout.RIGHT));
+            params.setMargins(0, 0, 0, 0);
+            params.setGravity(Gravity.FILL_VERTICAL);
+            ImageButton btn = new ImageButton(this);
+            btn.setLayoutParams(new LinearLayout.LayoutParams
+                    (LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
+            btn.setPadding(0, 0, 0, 0);
+            btn.setId(i + 200);
+            btn.setBackgroundColor(Color.WHITE);
+            //btn.setBackgroundResource(R.drawable.gear_option);
+            btn.setImageResource(R.drawable.gear_option);
+            gLayout.addView(btn, params);
+            btn.setVisibility(View.GONE);
+
+        }
+
+        /******************************************************/
 
         listView = (ListView) findViewById(R.id.list_todo);
         adapter = new ArrayAdapter<>(

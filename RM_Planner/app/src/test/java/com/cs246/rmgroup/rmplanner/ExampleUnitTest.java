@@ -1,4 +1,4 @@
-package com.cs246.rmgroup.rmplanner;
+//package com.cs246.rmgroup.rmplanner;
 
 import org.junit.Test;
 
@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
+/*
 public class ExampleUnitTest {
     Date date = new Date();
     Event event = new Event();
@@ -72,4 +73,4 @@ public class ExampleUnitTest {
         assertEquals(2016, reminded._time._year);
 
     }
-}
+}*/
