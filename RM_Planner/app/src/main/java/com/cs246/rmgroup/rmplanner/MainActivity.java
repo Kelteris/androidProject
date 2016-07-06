@@ -211,8 +211,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            //String displayText = ("Selected Date: " + (month + 1) + "/" + day + "/" + year);
-            //dateView.setText(displayText);
             dateView.setText(getString(R.string.date_format,
                     new DateFormatSymbols().getMonths()[month],
                     day,
@@ -264,7 +262,6 @@ public class MainActivity extends AppCompatActivity {
             params.setGravity(Gravity.FILL);
             TextView tv = new TextView(this);
             tv.setText(strHours[i]);
-            //tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             tv.setTextSize(pixelsToDp(35, this));
             tv.setTextColor(Color.BLACK);
             tv.setPadding(10, 15, 5, 10);
@@ -319,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
                     // only checks if the line is full on focusChange, not as soon as anything is typed in.
                     if (tmpBtn != null && hasFocus) {
                         tmpBtn.setVisibility(View.VISIBLE);
-                        Log.d("editText on focus", "et detected a focus change"); // I want to add a popup menu here
+                        Log.d("COG", "Detected a focus change"); // I want to add a popup menu here
                         // so this is what I think needs to happen. I need to make gLayout columns three wide, and set
                         // the last little bit to hold the options popup Menu, which is really a button that looks like a gear
                         // By default, I will set their isVisible property to false. When I focus on the EditText, I will change the
@@ -329,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                         // reminder class or something similar.
                     } else if (tmpBtn != null) {
                         tmpBtn.setVisibility(View.GONE);
-                        Log.d("editText on focus", "et lost focus");
+                        Log.d("COG", "Lost focus");
                     } else {
                         // do nothing, the object is null
                     }
@@ -346,16 +343,16 @@ public class MainActivity extends AppCompatActivity {
                     GridLayout.spec(i, GridLayout.CENTER),
                     GridLayout.spec(2, GridLayout.RIGHT));
             params.setMargins(0, 0, 0, 0);
-            params.setGravity(Gravity.FILL_VERTICAL);
+            params.setGravity(Gravity.BOTTOM);
             ImageButton btn = new ImageButton(this);
             btn.setLayoutParams(new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
             btn.setPadding(0, 0, 0, 0);
             btn.setId(i + 200);
-            btn.setBackgroundColor(Color.WHITE);
+            //btn.setBackgroundColor(Color.WHITE);
             //btn.setBackgroundResource(R.drawable.gear_option);
-            btn.setImageResource(R.drawable.gear_option);
+            btn.setImageResource(R.drawable.cog);
             gLayout.addView(btn, params);
             btn.setVisibility(View.GONE);
 
