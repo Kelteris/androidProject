@@ -61,14 +61,14 @@ public class SocialMediaDemo implements Runnable {
     private void analyzeYouTubeVideos() {
         System.out.println("Setting up YouTube videos...");
         
-        Adapter video1 = new Adapter("MormonMessages", "Bullying",
-                "President Uchtdorf counsels us to stop bullying.");
+        Adapter video1 = new Adapter(new YouTubeVideo("MormonMessages", "Bullying",
+                "President Uchtdorf counsels us to stop bullying."));
         
-        Adapter video2 = new Adapter("MormonMessages", "Patterns of Light",
-                "Elder Bednar teaches about the Light of Christ.");
+        Adapter video2 = new Adapter(new YouTubeVideo("MormonMessages", "Patterns of Light",
+                "Elder Bednar teaches about the Light of Christ."));
         
-        Adapter video3 = new Adapter("Randy Pausch", "The Last Lecture",
-                "Achieving your childhood dreams.");
+        Adapter video3 = new Adapter(new YouTubeVideo("Randy Pausch", "The Last Lecture",
+                "Achieving your childhood dreams."));
         
         List<SocialMediaEntry> entries = new ArrayList<>();
         

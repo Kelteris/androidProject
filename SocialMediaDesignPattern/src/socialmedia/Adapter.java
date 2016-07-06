@@ -12,10 +12,8 @@ package socialmedia;
 public class Adapter implements SocialMediaEntry {
     private YouTubeVideo temp = new YouTubeVideo();
     
-    public Adapter(String user, String postText, String description) {
-        temp.setAuthor(user);
-        temp.setTitle(postText);
-        temp.setDescription(description);
+    public Adapter(YouTubeVideo tmp) {
+        temp = tmp;
     }
     
     @Override
@@ -25,11 +23,7 @@ public class Adapter implements SocialMediaEntry {
 
     @Override
     public String getPostText() {
-        return temp.getTitle();
-    }
-
-    public String getDescription() {
-        return temp.getDescription();
+        return temp.getTitle() + " " + temp.getDescription();
     }
 
 }
