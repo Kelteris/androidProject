@@ -167,7 +167,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {   }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveData(null);
+            }
+        });
     }
 
     //Fancy version that we'll use
@@ -263,13 +274,13 @@ public class MainActivity extends AppCompatActivity {
                     R.drawable.draw_back_left, null);
 
             if (i < (strHours.length / 2)) {
-                ratio = (i /(float)(strHours.length/2));
+                ratio = (i / (float) (strHours.length / 2));
                 color = mixTwoColors(
-                       ContextCompat.getColor(tv.getContext(), R.color.colorNoon),
-                       ContextCompat.getColor(tv.getContext(), R.color.colorMorning),
+                        ContextCompat.getColor(tv.getContext(), R.color.colorNoon),
+                        ContextCompat.getColor(tv.getContext(), R.color.colorMorning),
                         ratio);
             } else {
-                ratio = ((i - (strHours.length/2))/(float)(strHours.length/2));
+                ratio = ((i - (strHours.length / 2)) / (float) (strHours.length / 2));
                 color = mixTwoColors(
                         ContextCompat.getColor(tv.getContext(), R.color.colorNight),
                         ContextCompat.getColor(tv.getContext(), R.color.colorNoon),
@@ -284,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
         /*******************************
          * Bring in all editTexts
          ******************************/
-        Log.e("BUILD", "Entering EditTexts");
+        Log.d("BUILD", "Entering EditTexts");
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new
                     GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
@@ -316,11 +327,10 @@ public class MainActivity extends AppCompatActivity {
                         // doesn't have this option. I may have to create a custom onFocusChange by extending the current
                         // setOnFocusChangeListener. That SHOULD get me to the next point, when I have to create and use a
                         // reminder class or something similar.
-                    } else if (tmpBtn != null){
+                    } else if (tmpBtn != null) {
                         tmpBtn.setVisibility(View.GONE);
                         Log.d("editText on focus", "et lost focus");
-                    }
-                    else {
+                    } else {
                         // do nothing, the object is null
                     }
                 }
@@ -331,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
         /*******************************************
          * Creates the option menu button
          ******************************************/
-        for(int i = 0; i < strHours.length; i++) {
+        for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new GridLayout.LayoutParams(
                     GridLayout.spec(i, GridLayout.CENTER),
                     GridLayout.spec(2, GridLayout.RIGHT));
@@ -362,23 +372,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static int mixTwoColors( int color1, int color2, float amount )
-    {
+    public static int mixTwoColors(int color1, int color2, float amount) {
         //Bitshift values for each hexColor
         final byte ALPHA_CHANNEL = 24;
-        final byte RED_CHANNEL   = 16;
-        final byte GREEN_CHANNEL =  8;
-        final byte BLUE_CHANNEL  =  0;
+        final byte RED_CHANNEL = 16;
+        final byte GREEN_CHANNEL = 8;
+        final byte BLUE_CHANNEL = 0;
 
         final float inverseAmount = 1.0f - amount;
-        int a = ((int)(((float)(color1 >> ALPHA_CHANNEL & 0xff )*amount) +
-                ((float)(color2 >> ALPHA_CHANNEL & 0xff )*inverseAmount))) & 0xff;
-        int r = ((int)(((float)(color1 >> RED_CHANNEL & 0xff )*amount) +
-                ((float)(color2 >> RED_CHANNEL & 0xff )*inverseAmount))) & 0xff;
-        int g = ((int)(((float)(color1 >> GREEN_CHANNEL & 0xff )*amount) +
-                ((float)(color2 >> GREEN_CHANNEL & 0xff )*inverseAmount))) & 0xff;
-        int b = ((int)(((float)(color1 & 0xff )*amount) +
-                ((float)(color2 & 0xff )*inverseAmount))) & 0xff;
+        int a = ((int) (((float) (color1 >> ALPHA_CHANNEL & 0xff) * amount) +
+                ((float) (color2 >> ALPHA_CHANNEL & 0xff) * inverseAmount))) & 0xff;
+        int r = ((int) (((float) (color1 >> RED_CHANNEL & 0xff) * amount) +
+                ((float) (color2 >> RED_CHANNEL & 0xff) * inverseAmount))) & 0xff;
+        int g = ((int) (((float) (color1 >> GREEN_CHANNEL & 0xff) * amount) +
+                ((float) (color2 >> GREEN_CHANNEL & 0xff) * inverseAmount))) & 0xff;
+        int b = ((int) (((float) (color1 & 0xff) * amount) +
+                ((float) (color2 & 0xff) * inverseAmount))) & 0xff;
 
         return a << ALPHA_CHANNEL | r << RED_CHANNEL | g << GREEN_CHANNEL | b << BLUE_CHANNEL;
     }
@@ -396,12 +405,12 @@ public class MainActivity extends AppCompatActivity {
         return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    public void saveData(View view){
+    public void saveData(View view) {
         removeNote(null);
         newNote(null);
     }
 
-    public void lookupNote (View view) {
+    public void lookupNote(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
 
         Note note = dbHandler.findNote(dateView.getText().toString());
@@ -412,13 +421,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void newNote (View view) {
+    public void newNote(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        Note note = new Note (dateView.getText().toString(), notes.getText().toString());
+        Note note = new Note(dateView.getText().toString(), notes.getText().toString());
         dbHandler.addNote(note);
     }
 
-    public void removeNote (View view) {
+    public void removeNote(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null,
                 null, 1);
         dbHandler.deleteNote(dateView.getText().toString());
