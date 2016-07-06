@@ -6,12 +6,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -102,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Adds goals to the "to-do" list
-     * @author Travis Confer
+     *
      * @param v
+     * @author Travis Confer
      */
     public void addToList(View v) {
         final EditText taskEditText = new EditText(this);
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Swipe Gestures Listener Setup
-    private void setUpListeners () {
+    private void setUpListeners() {
         mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
             public void onSwipeRight() {
@@ -178,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Lame version
+    //Lame Version for Dialog
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         @Override
@@ -211,8 +214,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Switches between FlyOutContainer and MainActivity
-     * @author Chris Simmons
+     *
      * @param v
+     * @author Chris Simmons
      */
     public void toggleMenu(View v) {
         this.root.toggleMenu();
@@ -221,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Builds the hourly view, and the reminder option for added benefit
+     *
      * @author Travis Confer
      * @author Asa Skousen
      */
@@ -234,6 +239,8 @@ public class MainActivity extends AppCompatActivity {
          * Bring in all hours in left column
          ***********************************/
         Log.d("BUILD", "Creating left column hours");
+        int color;
+        float ratio = 0;
         for (int i = 0; i < strHours.length; i++) {
             GridLayout.LayoutParams params = new
                     GridLayout.LayoutParams(GridLayout.spec(i, GridLayout.CENTER),
@@ -242,14 +249,30 @@ public class MainActivity extends AppCompatActivity {
             params.setGravity(Gravity.FILL);
             TextView tv = new TextView(this);
             tv.setText(strHours[i]);
+            Log.d("RATIO", Float.toString(ratio));
             //tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             tv.setTextSize(pixelsToDp(35, this));
+            tv.setTextColor(Color.BLACK);
             tv.setPadding(10, 15, 5, 10);
             tv.setId(i + 100);
             //Set Drawable
             Drawable background = ResourcesCompat.getDrawable(getResources(),
                     R.drawable.draw_back_left, null);
-            int color = ContextCompat.getColor(tv.getContext(), R.color.colorMorning);
+
+            if (i < (strHours.length / 2)) {
+                ratio = (i /(float)(strHours.length/2));
+                color = mixTwoColors(
+                       ContextCompat.getColor(tv.getContext(), R.color.colorNoon),
+                       ContextCompat.getColor(tv.getContext(), R.color.colorMorning),
+                        ratio);
+            } else {
+                ratio = ((i - (strHours.length/2))/(float)(strHours.length/2));
+                color = mixTwoColors(
+                        ContextCompat.getColor(tv.getContext(), R.color.colorNight),
+                        ContextCompat.getColor(tv.getContext(), R.color.colorNoon),
+                        ratio);
+            }
+
             background.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             tv.setBackground(background);
             gLayout.addView(tv, params);
@@ -284,8 +307,30 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    public static int mixTwoColors( int color1, int color2, float amount )
+    {
+        final byte ALPHA_CHANNEL = 24;
+        final byte RED_CHANNEL   = 16;
+        final byte GREEN_CHANNEL =  8;
+        final byte BLUE_CHANNEL  =  0;
+
+        final float inverseAmount = 1.0f - amount;
+
+        int a = ((int)(((float)(color1 >> ALPHA_CHANNEL & 0xff )*amount) +
+                ((float)(color2 >> ALPHA_CHANNEL & 0xff )*inverseAmount))) & 0xff;
+        int r = ((int)(((float)(color1 >> RED_CHANNEL & 0xff )*amount) +
+                ((float)(color2 >> RED_CHANNEL & 0xff )*inverseAmount))) & 0xff;
+        int g = ((int)(((float)(color1 >> GREEN_CHANNEL & 0xff )*amount) +
+                ((float)(color2 >> GREEN_CHANNEL & 0xff )*inverseAmount))) & 0xff;
+        int b = ((int)(((float)(color1 & 0xff )*amount) +
+                ((float)(color2 & 0xff )*inverseAmount))) & 0xff;
+
+        return a << ALPHA_CHANNEL | r << RED_CHANNEL | g << GREEN_CHANNEL | b << BLUE_CHANNEL;
+    }
+
     /**
      * converts from pixels to Dp.
+     *
      * @param px
      * @param context
      * @return

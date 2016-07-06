@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#1c1e2e</color>
     <color name="colorAccent">#216dd1</color>
     <color name="colorBackground">#e9e9e9</color>
-    <color name="colorMorning">#ff7038</color>
+    <color name="colorMorning">#ffac38</color>
+    <color name="colorNoon">#ffe876</color>
+    <color name="colorNight">#746dd4</color>
 </resources>
