@@ -326,21 +326,19 @@ public class MainActivity extends AppCompatActivity {
             et.setText(null);
             et.setPadding(10, 3, 3, 5);
             et.setId(i + 300);
-            et.setEms(8);
-            // prevents the editText from pushing the button out of view, but doesn't do anything else
+            et.setEms(8); // This just prevents text from going off the screen
             et.setMaxWidth(10);
             //Set Drawable
             et.setBackgroundResource(R.drawable.draw_back);
             et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 public void onFocusChange(View v, boolean hasFocus) {
                     ImageButton tmpBtn = (ImageButton) findViewById(v.getId() - 100);
-                    // only checks if the line is full on focusChange, not as soon as anything is typed in.
                     if (tmpBtn != null && hasFocus) {
                         tmpBtn.setVisibility(View.VISIBLE);
-                        Log.d("COG", "Detected a focus change");
+                        Log.d("COG", "Became the focus");
                     } else if (tmpBtn != null) {
                         tmpBtn.setVisibility(View.GONE);
-                        Log.d("COG", "Lost focus");
+                        Log.d("COG", "Lost the focus");
                     } else {
                         // do nothing, the object is null
                     }
@@ -362,15 +360,12 @@ public class MainActivity extends AppCompatActivity {
             btn.setLayoutParams(new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
-            btn.setPadding(0, 0, 0, 0);
+            btn.setPadding(430, 0, 0, 0); // this is not flexible
             btn.setId(i + 200);
             btn.setBackgroundColor(Color.TRANSPARENT);
-
-            //btn.setBackgroundResource(R.drawable.gear_option);
             btn.setImageResource(R.drawable.gear_option);
             gLayout.addView(btn, params);
             btn.setVisibility(View.GONE);
-
         }
 
         /******************************************************/
