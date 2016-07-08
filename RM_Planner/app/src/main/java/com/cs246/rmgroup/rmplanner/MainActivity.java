@@ -419,7 +419,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveEvent(View view) {
         EditText et = (EditText)view;
-        Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()));
+        Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()) +
+                " of the hour " + strHours[view.getId() - 300]);
 
     }
 
