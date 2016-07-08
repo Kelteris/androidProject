@@ -14,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -178,9 +179,28 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                saveData(null);
+                saveNote(null);
             }
         });
+
+        for (int i = 0; i < strHours.length; i++){
+            final EditText et = (EditText) findViewById(300 + i);
+
+            if (et != null) {
+                et.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {   }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        saveEvent(et);
+                    }
+                });
+            }
+        }
     }
 
     //Fancy version that we'll use
@@ -397,9 +417,15 @@ public class MainActivity extends AppCompatActivity {
         return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    public void saveData(View view) {
+    public void saveNote(View view) {
         removeNote(null);
         newNote(null);
+    }
+
+    public void saveEvent(View view) {
+        EditText et = (EditText)view;
+        Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()));
+
     }
 
     public static void lookupNote(View view) {
