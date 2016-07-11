@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         buildPlannerView();
         setUpListeners();
         lookupNote(null);
-        lookupEvent(null);
+        //lookupEvent(null);
     }
 
     //How we add to the "to-do" list
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        saveEvent(null);
+                        //saveEvent(null);
                     }
                 });
             }
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                     year));
             toggleMenu(null);
             lookupNote(null);
-            lookupEvent(null);
+            //lookupEvent(null);
         }
     }
 
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                     year));
             currentDay.set(year, month, day);
             lookupNote(null);
-            lookupEvent(null);
+            //lookupEvent(null);
 
         }
     }
@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
         newNote(null);
     }
 
-    public void saveEvent(View view) {
+    /*public void saveEvent(View view) {
         EditText et = (EditText)view;
         Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()) +
                 " of the hour " + strHours[view.getId() - 300]);
@@ -429,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
         removeEvent(null, et);
         newEvent(null, et);
     }
-
+*/
     public static void lookupNote(View view) {
         MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 1);
 
@@ -453,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.deleteNote(dateView.getText().toString());
     }
 
-    public static void lookupEvent(View view) {
+    /*public static void lookupEvent(View view) {
         MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 1);
         EditText et = (EditText) view;
         Event event = dbHandler.findEvent(dateView.getText().toString(), view.getId());
@@ -474,8 +474,7 @@ public class MainActivity extends AppCompatActivity {
         MyDBHandler dbHandler = new MyDBHandler(this, null,
                 null, 1);
        dbHandler.deleteEvent(dateView.getText().toString(), et.getText().toString());
-    }
-
+    }*/
 
 
     //notes listener thing TextWatcher

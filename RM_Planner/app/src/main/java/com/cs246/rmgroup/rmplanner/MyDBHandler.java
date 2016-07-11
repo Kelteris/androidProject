@@ -96,8 +96,8 @@ public class MyDBHandler extends SQLiteOpenHelper{
         db.close();
     }*/
 
-    public Note findNote(String currentDay/*pass in the currentdate*/) {
-        String query = "Select * FROM " + TABLE_NOTE + " WHERE " + NOTE_DAY + " =  \"" + currentDay/*pass in the current date*/ + "\"";
+    public Note findNote(String currentDay) {
+        String query = "Select * FROM " + TABLE_NOTE + " WHERE " + NOTE_DAY + " =  \"" + currentDay + "\"";
 
         SQLiteDatabase db = this.getWritableDatabase();
 
