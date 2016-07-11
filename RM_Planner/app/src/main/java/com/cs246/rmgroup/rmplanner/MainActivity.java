@@ -4,7 +4,9 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +23,7 @@ import android.os.PowerManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.MotionEventCompat;
@@ -238,6 +241,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createReminder(){
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("RM Planner")
+                        .setContentText("Hello World!");
+        // Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        mBuilder.setAutoCancel(true);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // 500 is the id, use it if you want to update it
+        mNotificationManager.notify(500, mBuilder.build());
 
     }
 
@@ -306,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
     void buildPlannerView() {
         //Setup gridLayout
         Log.d("Left Column hour view", "Started creating the hour view");
-        gLayout.setColumnCount(3);
+        gLayout.setColumnCount(2);
         gLayout.setRowCount(strHours.length);
 
         /************************************
@@ -395,13 +427,13 @@ public class MainActivity extends AppCompatActivity {
             GridLayout.LayoutParams params = new GridLayout.LayoutParams(
                     GridLayout.spec(i, GridLayout.CENTER),
                     GridLayout.spec(1, GridLayout.CENTER));
-            params.setMargins(0, 0, 0, 0);
+            params.setMargins(430, 0, 0, 0);
             params.setGravity(Gravity.FILL_VERTICAL);
             ImageButton btn = new ImageButton(this);
             btn.setLayoutParams(new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
-            btn.setPadding(430, 0, 0, 0); // this is not flexible
+            btn.setPadding(0, 0, 0, 0);
             btn.setId(i + 200);
             btn.setBackgroundColor(Color.TRANSPARENT);
             btn.setImageResource(R.drawable.gear_option);
@@ -544,5 +576,4 @@ public class MainActivity extends AppCompatActivity {
 
     // Something needs to happen here
     //gLayout.setOnFocusChangeListener(R.getViewById().onFocusChangeListener l);
-
 }
