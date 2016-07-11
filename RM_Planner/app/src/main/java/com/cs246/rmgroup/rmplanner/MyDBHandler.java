@@ -66,6 +66,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
                           int newVersion) {
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENT);
         onCreate(db);
     }
 
@@ -82,18 +83,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
-    public void addEvent(Event event) {
 
-        ContentValues values = new ContentValues();
-        values.put(EVENT_DAY, event.get_day());
-        values.put(EVENT_DESCRIPTION, event.get_description());
-        values.put(EVENT_HOUR, event.get_hour());
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.insert(TABLE_EVENT, null, values);
-        db.close();
-    }
     /*public void addProduct(Product product) {
 
         ContentValues values = new ContentValues();
@@ -128,28 +118,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return note;
     }
 
-    public Event findEvent(String currentDay/*pass in the currentdate*/) {
-        String query = "Select * FROM " + TABLE_EVENT + " WHERE " + EVENT_DAY + " =  \"" + currentDay/*pass in the current date*/ + "\"";
 
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor cursor = db.rawQuery(query, null);
-
-        Event event = new Event();
-
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            event.set_id(Integer.parseInt(cursor.getString(0)));
-            event.set_day(cursor.getString(1));
-            event.set_description(cursor.getString(2));
-            event.set_hour(Integer.parseInt(cursor.getString(3)));
-            cursor.close();
-        } else {
-            event = null;
-        }
-        db.close();
-        return event;
-    }
     /*public Product findProduct(String productname) {
         String query = "Select * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCTNAME + " =  \"" + productname + "\"";
 
@@ -195,11 +164,47 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return result;
     }
 
-    public boolean deleteEvent(String currentDay) {
+    public void addEvent(Event event) {
+
+        ContentValues values = new ContentValues();
+        values.put(EVENT_DAY, event.get_day());
+        values.put(EVENT_DESCRIPTION, event.get_description());
+        values.put(EVENT_HOUR, event.get_hour());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.insert(TABLE_EVENT, null, values);
+        db.close();
+    }
+
+    public Event findEvent(String currentDay, int currentHour) {
+        String query = "Select * FROM " + TABLE_EVENT + " WHERE " + EVENT_DAY + " =  \"" + currentDay + "\"" + " AND " + EVENT_HOUR + " = \"" + currentHour + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        Event event = new Event();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            event.set_id(Integer.parseInt(cursor.getString(0)));
+            event.set_day(cursor.getString(1));
+            event.set_description(cursor.getString(2));
+            event.set_hour(Integer.parseInt(cursor.getString(3)));
+            cursor.close();
+        } else {
+            event = null;
+        }
+        db.close();
+        return event;
+    }
+
+    public boolean deleteEvent(String currentDay, String currentHour) {
 
         boolean result = false;
 
-        String query = "Select * FROM " + TABLE_EVENT + " WHERE " + EVENT_DAY + " =  \"" + currentDay + "\"";
+        String query = "Select * FROM " + TABLE_EVENT + " WHERE " + EVENT_DAY + " =  \"" + currentDay + "\"" + " AND " + EVENT_HOUR + " = \"" + currentHour + "\"";
 
         SQLiteDatabase db = this.getWritableDatabase();
 

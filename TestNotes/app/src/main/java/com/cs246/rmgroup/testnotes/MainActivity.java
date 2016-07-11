@@ -98,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
     public void lookupNote (View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
 
-        Note note = dbHandler.findNote(dayBox.getText().toString());
+        Note note = dbHandler.findNote(dayBox.getText().toString(), descriptionBox.getText().toString());
 
         if (note != null) {
             idView.setText(String.valueOf(note.getID()));
             dayView.setText(String.valueOf(note.get_day()));
             descriptionView.setText(String.valueOf(note.get_description()));
-            descriptionBox.setText(String.valueOf(note.get_description()));
+            //descriptionBox.setText(String.valueOf(note.get_description()));
         } else {
             idView.setText("No Match Found");
         }

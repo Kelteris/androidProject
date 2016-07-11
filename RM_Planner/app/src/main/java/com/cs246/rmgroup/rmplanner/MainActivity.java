@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         buildPlannerView();
         setUpListeners();
         lookupNote(null);
+        lookupEvent(null);
     }
 
     //How we add to the "to-do" list
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        saveEvent(et);
+                        saveEvent(null);
                     }
                 });
             }
@@ -214,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                     year));
             toggleMenu(null);
             lookupNote(null);
+            lookupEvent(null);
         }
     }
 
@@ -236,6 +238,8 @@ public class MainActivity extends AppCompatActivity {
                     year));
             currentDay.set(year, month, day);
             lookupNote(null);
+            lookupEvent(null);
+
         }
     }
 
@@ -421,7 +425,9 @@ public class MainActivity extends AppCompatActivity {
         EditText et = (EditText)view;
         Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()) +
                 " of the hour " + strHours[view.getId() - 300]);
-
+        //return et.getText().toString();
+        removeEvent(null, et);
+        newEvent(null, et);
     }
 
     public static void lookupNote(View view) {
@@ -447,28 +453,27 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.deleteNote(dateView.getText().toString());
     }
 
-    public void lookupEvent(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-
-        Event event = dbHandler.findEvent(dateView.getText().toString());
-        /*if (event != null) {
-            notes.setText(String.valueOf(event.get_description()));
+    public static void lookupEvent(View view) {
+        MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 1);
+        EditText et = (EditText) view;
+        Event event = dbHandler.findEvent(dateView.getText().toString(), view.getId());
+        if (event != null) {
+            et.setText(String.valueOf(event.get_description()));
         } else {
-            notes.setText(null);
-        }*/
+            et.setText(null);
+        }
     }
 
-    public void newEvent(View view) {
+    public void newEvent(View view, EditText et) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        //Event event = new Event(dateView.getText().toString(), notes.getText().toString(),
-        //        index of hour array/* this will be the hour for the event*/);
-        //dbHandler.addNote(event);
+        Event event = new Event(dateView.getText().toString(), et.getText().toString(), (view.getId() - 300) );
+        dbHandler.addEvent(event);
     }
 
-    public void removeEvent(View view) {
+    public void removeEvent(View view, EditText et) {
         MyDBHandler dbHandler = new MyDBHandler(this, null,
                 null, 1);
-        dbHandler.deleteNote(dateView.getText().toString()/*, index of hour array this will be the hour for the event*/);
+       dbHandler.deleteEvent(dateView.getText().toString(), et.getText().toString());
     }
 
 
