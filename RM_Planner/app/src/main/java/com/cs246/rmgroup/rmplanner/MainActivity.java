@@ -1,10 +1,14 @@
 package com.cs246.rmgroup.rmplanner;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -13,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
+import android.os.PowerManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -186,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < strHours.length; i++){
             final EditText et = (EditText) findViewById(300 + i);
-
+            final ImageButton btn = (ImageButton)findViewById(200 + i);
             if (et != null) {
                 et.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -201,7 +206,39 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+
+            if (btn != null) {
+                btn.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+                        showEventOptions((View) btn);
+                    }
+                });
+            }
         }
+    }
+
+    public void showEventOptions(View view){
+        CharSequence options[] = new CharSequence[] {"Set Reminder"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Options");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch(which)
+                {
+                    case 0:
+                        createReminder();
+                    default:
+                        Log.d("OPTIONS", "Default was run");
+                }
+            }
+        });
+        builder.show();
+    }
+
+    public void createReminder(){
+
     }
 
     //Fancy version that we'll use
@@ -507,4 +544,5 @@ public class MainActivity extends AppCompatActivity {
 
     // Something needs to happen here
     //gLayout.setOnFocusChangeListener(R.getViewById().onFocusChangeListener l);
+
 }
