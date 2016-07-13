@@ -63,7 +63,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
     boolean isMainActivity = true;
-    String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
+    static String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30",
             "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00",
             "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30",
@@ -111,6 +111,13 @@ public class MainActivity extends AppCompatActivity {
         buildPlannerView();
         setUpListeners();
         lookupNote(null);
+        for (int i = 0; i < strHours.length; i++) {
+            final EditText et = (EditText) findViewById(300 + i);
+            if (et != null) {
+                //et.setText(null);
+                lookupEvent(et);
+            }
+        }
         //lookupEvent(null);
     }
 
@@ -181,10 +188,12 @@ public class MainActivity extends AppCompatActivity {
 
         notes.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {   }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -192,28 +201,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        for (int i = 0; i < strHours.length; i++){
+        for (int i = 0; i < strHours.length; i++) {
             final EditText et = (EditText) findViewById(300 + i);
-            final ImageButton btn = (ImageButton)findViewById(200 + i);
+            final ImageButton btn = (ImageButton) findViewById(200 + i);
             if (et != null) {
                 et.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
 
                     @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {   }
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        //saveEvent(null);
+                        saveEvent(et);
                     }
                 });
             }
 
             if (btn != null) {
                 btn.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         showEventOptions((View) btn);
                     }
                 });
@@ -221,15 +231,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showEventOptions(View view){
-        CharSequence options[] = new CharSequence[] {"Set Reminder"};
+    public void showEventOptions(View view) {
+        CharSequence options[] = new CharSequence[]{"Set Reminder"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Options");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch(which)
-                {
+                switch (which) {
                     case 0:
                         createReminder();
                     default:
@@ -240,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void createReminder(){
+    public void createReminder() {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -284,6 +293,13 @@ public class MainActivity extends AppCompatActivity {
                     year));
             toggleMenu(null);
             lookupNote(null);
+            for (int i = 0; i < strHours.length; i++) {
+                final EditText et = (EditText) findViewById(300 + i);
+                if (et != null) {
+                        //et.setText(null);
+                        lookupEvent(et);
+                }
+            }
             //lookupEvent(null);
         }
     }
@@ -307,6 +323,13 @@ public class MainActivity extends AppCompatActivity {
                     year));
             currentDay.set(year, month, day);
             lookupNote(null);
+            for (int i = 0; i < strHours.length; i++) {
+                final EditText et = (EditText) getActivity().findViewById(300 + i);
+                if (et != null) {
+                    //et.setText(null);
+                    lookupEvent(et);
+                }
+            }
             //lookupEvent(null);
 
         }
@@ -490,17 +513,17 @@ public class MainActivity extends AppCompatActivity {
         newNote(null);
     }
 
-    /*public void saveEvent(View view) {
-        EditText et = (EditText)view;
-        Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()) +
-                " of the hour " + strHours[view.getId() - 300]);
+    public void saveEvent(View view) {
+        //Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()) +
+        //        " of the hour " + strHours[view.getId() - 300]);
         //return et.getText().toString();
-        removeEvent(null, et);
-        newEvent(null, et);
+        //removeEvent(null, et);
+        removeEvent((EditText) view);
+        newEvent((EditText) view);
     }
-*/
+
     public static void lookupNote(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 1);
+        MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 4);
 
         Note note = dbHandler.findNote(dateView.getText().toString());
         if (note != null) {
@@ -511,21 +534,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newNote(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 4);
         Note note = new Note(dateView.getText().toString(), notes.getText().toString());
         dbHandler.addNote(note);
     }
 
     public void removeNote(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null,
-                null, 1);
+                null, 3);
         dbHandler.deleteNote(dateView.getText().toString());
     }
 
-    /*public static void lookupEvent(View view) {
-        MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 1);
-        EditText et = (EditText) view;
-        Event event = dbHandler.findEvent(dateView.getText().toString(), view.getId());
+    public static void lookupEvent(EditText et) {
+        MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 4);
+        //EditText et = (EditText) view;
+        Log.d("event LOOKING FOR:", Integer.toString(et.getId()));
+        Event event = dbHandler.findEvent(dateView.getText().toString(), et.getId());
         if (event != null) {
             et.setText(String.valueOf(event.get_description()));
         } else {
@@ -533,17 +557,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void newEvent(View view, EditText et) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        Event event = new Event(dateView.getText().toString(), et.getText().toString(), (view.getId() - 300) );
+    public void newEvent(EditText et) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 4);
+        Log.d("event SAVING:", Integer.toString(et.getId()));
+        Event event = new Event(dateView.getText().toString(), et.getText().toString(), et.getId());
+        //Log.d("event SAVING:", Integer.toString(view.getId() - 300));
         dbHandler.addEvent(event);
     }
 
-    public void removeEvent(View view, EditText et) {
+    public void removeEvent(EditText et) {
         MyDBHandler dbHandler = new MyDBHandler(this, null,
-                null, 1);
-       dbHandler.deleteEvent(dateView.getText().toString(), et.getText().toString());
-    }*/
+                null, 4);
+        Log.d("event DELETING:", Integer.toString(et.getId()));
+        dbHandler.deleteEvent(dateView.getText().toString(), et.getId());
+    }
 
 
     //notes listener thing TextWatcher
@@ -560,7 +587,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+            MyDBHandler dbHandler = new MyDBHandler(this, null, null, 4);
 
             String currentDate = Integer.toString(thisDay.get(Calendar.YEAR)) +
                     "-" + Integer.toString(thisDay.get(Calendar.MONTH)) +

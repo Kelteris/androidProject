@@ -11,13 +11,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class MyDBHandler extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "RM_Planner.db";
     private static final String TABLE_NOTE = "note";
     private static final String NOTE_ID = "_id";
     private static final String NOTE_DAY = "day";
     private static final String NOTE_DESCRIPTION = "description";
-    private static final String TABLE_EVENT = "note";
+    private static final String TABLE_EVENT = "event";
     private static final String EVENT_ID = "_id";
     private static final String EVENT_DAY = "day";
     private static final String EVENT_DESCRIPTION = "description";
@@ -30,6 +30,18 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public static final String COLUMN_PRODUCTNAME = "productname";
     public static final String COLUMN_QUANTITY = "quantity";*/
 
+    // Create the Note Table
+    public static final String CREATE_NOTE_TABLE = "CREATE TABLE " + TABLE_NOTE + "("
+            + NOTE_ID + " INTEGER PRIMARY KEY," + NOTE_DAY
+            + " TEXT," + NOTE_DESCRIPTION + " TEXT" + ")";
+
+    // Create the Event Table
+    public static final String CREATE_EVENT_TABLE = "CREATE TABLE " + TABLE_EVENT + "("
+            + EVENT_ID + " INTEGER PRIMARY KEY," + EVENT_DAY
+            + " TEXT," + EVENT_DESCRIPTION + " TEXT,"
+            + EVENT_HOUR + " INTEGER" + ")";
+
+
 
     public MyDBHandler(Context context, String name,
                        SQLiteDatabase.CursorFactory factory, int version) {
@@ -39,19 +51,9 @@ public class MyDBHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        // Create the Note Table
-        String CREATE_NOTE_TABLE = "CREATE TABLE " +
-                TABLE_NOTE + "("
-                + NOTE_ID + " INTEGER PRIMARY KEY," + NOTE_DAY
-                + " TEXT," + NOTE_DESCRIPTION + " TEXT" + ")";
-        db.execSQL(CREATE_NOTE_TABLE);
 
-        // Create the Event Table
-        String CREATE_EVENT_TABLE = "CREATE TABLE " +
-                TABLE_EVENT + "("
-                + EVENT_ID + " INTEGER PRIMARY KEY," + EVENT_DAY
-                + " TEXT," + EVENT_DESCRIPTION + " TEXT"
-                + EVENT_HOUR + " INTEGER" + ")";
+
+        db.execSQL(CREATE_NOTE_TABLE);
         db.execSQL(CREATE_EVENT_TABLE);
 
         /*String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
@@ -167,9 +169,12 @@ public class MyDBHandler extends SQLiteOpenHelper{
     public void addEvent(Event event) {
 
         ContentValues values = new ContentValues();
-        values.put(EVENT_DAY, event.get_day());
-        values.put(EVENT_DESCRIPTION, event.get_description());
         values.put(EVENT_HOUR, event.get_hour());
+        values.put(EVENT_DESCRIPTION, event.get_description());
+
+
+        values.put(EVENT_DAY, event.get_day());
+
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -200,7 +205,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return event;
     }
 
-    public boolean deleteEvent(String currentDay, String currentHour) {
+    public boolean deleteEvent(String currentDay, int currentHour) {
 
         boolean result = false;
 
@@ -214,7 +219,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
         if (cursor.moveToFirst()) {
             event.set_id(Integer.parseInt(cursor.getString(0)));
-            db.delete(TABLE_NOTE, NOTE_ID + " = ?",
+            db.delete(TABLE_EVENT, EVENT_ID + " = ?",
                     new String[] { String.valueOf(event.get_id()) });
             cursor.close();
             result = true;
