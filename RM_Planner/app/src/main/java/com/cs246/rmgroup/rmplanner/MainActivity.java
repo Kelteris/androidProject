@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -20,6 +21,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -31,6 +33,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -58,7 +61,9 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout mainLayout;
     DatePicker dPicker;
     Logging log;
+    static int goalIterator = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 currentDay.get(Calendar.YEAR)));
 
         log = Logging.getInstance();
+
+        Set<String> tasksSet = PreferenceManager.getDefaultSharedPreferences(baseContext)
+                .getStringSet("tasks_set", new HashSet<String>());
+
+        list = new ArrayList<String>(tasksSet);
 
         buildPlannerView();
         setUpListeners();
@@ -143,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         String task = String.valueOf(taskEditText.getText());
                         if (task.length() > 0) {
                             list.add(task);
+                            saveGoals(list);
                         } else {
                             Toast.makeText(getApplicationContext(),
                                     "NO CONTENT", Toast.LENGTH_SHORT).show();
@@ -175,6 +187,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        listView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+            @Override
+            public void onSwipeRight() {
+
+            }
+        });
+
 
         leftLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
@@ -252,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
     public void createReminder() {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.rm_planner_icon)
                         .setContentTitle("RM Planner")
                         .setContentText("Hello World!");
         // Creates an explicit intent for an Activity in your app
@@ -511,6 +531,20 @@ public class MainActivity extends AppCompatActivity {
     public void saveNote(View view) {
         removeNote(null);
         newNote(null);
+    }
+
+    public void saveGoals(ArrayList<String> goalList) {
+        Set<String> tasksSet = new HashSet<String>(goalList);
+        PreferenceManager.getDefaultSharedPreferences(baseContext)
+                .edit()
+                .putStringSet("tasks_set", tasksSet)
+                .commit();
+        /*
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("GoalStorage", goal);
+
+        editor.commit();*/
     }
 
     public void saveEvent(View view) {
