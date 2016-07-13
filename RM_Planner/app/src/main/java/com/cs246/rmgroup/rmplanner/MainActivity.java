@@ -31,6 +31,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -45,6 +46,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -188,12 +190,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        listView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onSwipeRight() {
-
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                if(list.get(position) != null) {
+                    list.remove(position);
+                    adapter.notifyDataSetChanged();
+                    saveGoals(list);
+                }
             }
         });
+
 
 
         leftLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
