@@ -246,16 +246,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (btn != null) {
+                final int textLocation = i;
                 btn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        showEventOptions((View) btn);
+                        showEventOptions((View) btn, textLocation);
                     }
                 });
             }
         }
     }
 
-    public void showEventOptions(View view) {
+    public void showEventOptions(View view, final int textLocation) {
         CharSequence options[] = new CharSequence[]{"Set Reminder"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Options");
@@ -264,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        createReminder();
+                        createReminder(textLocation);
                     default:
                         Log.d("OPTIONS", "Default was run");
                 }
@@ -273,37 +274,42 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void createReminder() {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.rm_planner_icon)
-                        .setContentTitle("RM Planner")
-                        .setContentText("Hello World!");
-        // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, MainActivity.class);
-        mBuilder.setAutoCancel(true);
+    public void createReminder(int textLocation) {
+        EditText editText = (EditText) findViewById(300 + textLocation);
+        String string = editText.getText().toString();
+        if(string.matches("")) {
+            ;
+        } else {
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.rm_planner_icon)
+                            .setContentTitle("RM Planner")
+                            .setContentText(string);
+            // Creates an explicit intent for an Activity in your app
+            Intent resultIntent = new Intent(this, MainActivity.class);
+            mBuilder.setAutoCancel(true);
 
-        // The stack builder object will contain an artificial back stack for the
-        // started Activity.
-        // This ensures that navigating backward from the Activity leads out of
-        // your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
-        // Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            // The stack builder object will contain an artificial back stack for the
+            // started Activity.
+            // This ensures that navigating backward from the Activity leads out of
+            // your application to the Home screen.
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            // Adds the back stack for the Intent (but not the Intent itself)
+            stackBuilder.addParentStack(MainActivity.class);
+            // Adds the Intent that starts the Activity to the top of the stack
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(
+                            0,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+            mBuilder.setContentIntent(resultPendingIntent);
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // 500 is the id, use it if you want to update it
-        mNotificationManager.notify(500, mBuilder.build());
-
+            // 500 is the id, use it if you want to update it
+            mNotificationManager.notify(500, mBuilder.build());
+        }
     }
 
     //Fancy version that we'll use
