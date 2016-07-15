@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void createReminder(int textLocation) {
         EditText editText = (EditText) findViewById(300 + textLocation);
-        String string = editText.getText().toString();
+        String string = editText.getText().toString() + " at " + strHours[textLocation];
         if(string.matches("")) {
             ;
         } else {
