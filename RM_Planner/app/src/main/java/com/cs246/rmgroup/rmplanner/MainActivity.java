@@ -1,5 +1,6 @@
 package com.cs246.rmgroup.rmplanner;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -19,6 +20,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -59,6 +61,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.URL;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00",
             "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00"};
+    static Activity baseActivity;
     static TextView dateView;
     static Context baseContext;
     static EditText notes;
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.activity_main, null);
         this.setContentView(root);
         baseContext = this.getApplicationContext();
+        baseActivity = this;
         leftLayout = (LinearLayout) findViewById(R.id.sideLayout);
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         gLayout = (GridLayout) findViewById(R.id.gridLayout);
@@ -124,14 +129,7 @@ public class MainActivity extends AppCompatActivity {
         buildPlannerView();
         setUpListeners();
         lookupNote(null);
-        for (int i = 0; i < strHours.length; i++) {
-            final EditText et = (EditText) findViewById(300 + i);
-            if (et != null) {
-                //et.setText(null);
-                lookupEvent(et);
-            }
-        }
-        //lookupEvent(null);
+        lookupEvent();
     }
 
     //How we add to the "to-do" list
@@ -193,14 +191,13 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                if(list.get(position) != null) {
+                if (list.get(position) != null) {
                     list.remove(position);
                     adapter.notifyDataSetChanged();
                     saveGoals(list);
                 }
             }
         });
-
 
 
         leftLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
@@ -320,14 +317,7 @@ public class MainActivity extends AppCompatActivity {
                     year));
             toggleMenu(null);
             lookupNote(null);
-            for (int i = 0; i < strHours.length; i++) {
-                final EditText et = (EditText) findViewById(300 + i);
-                if (et != null) {
-                        //et.setText(null);
-                        lookupEvent(et);
-                }
-            }
-            //lookupEvent(null);
+            lookupEvent();
         }
     }
 
@@ -350,15 +340,7 @@ public class MainActivity extends AppCompatActivity {
                     year));
             currentDay.set(year, month, day);
             lookupNote(null);
-            for (int i = 0; i < strHours.length; i++) {
-                final EditText et = (EditText) getActivity().findViewById(300 + i);
-                if (et != null) {
-                    //et.setText(null);
-                    lookupEvent(et);
-                }
-            }
-            //lookupEvent(null);
-
+            lookupEvent();
         }
     }
 
@@ -586,15 +568,23 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.deleteNote(dateView.getText().toString());
     }
 
-    public static void lookupEvent(EditText et) {
+    public static void lookupEvent() {
         MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 4);
-        //EditText et = (EditText) view;
-        Log.d("event LOOKING FOR:", Integer.toString(et.getId()));
-        Event event = dbHandler.findEvent(dateView.getText().toString(), et.getId());
-        if (event != null) {
-            et.setText(String.valueOf(event.get_description()));
-        } else {
-            et.setText(null);
+        Event event = null;
+        EditText et = null;
+
+        for (int i = 0; i < strHours.length; i++) {
+            et = (EditText) baseActivity.findViewById(300 + i);
+
+            if (et != null) {
+                Log.d("event LOOKING FOR:", Integer.toString(et.getId()));
+                event = dbHandler.findEvent(dateView.getText().toString(), et.getId());
+                if (event != null) {
+                    et.setText(String.valueOf(event.get_description()));
+                } else {
+                    et.setText(null);
+                }
+            }
         }
     }
 
@@ -612,36 +602,4 @@ public class MainActivity extends AppCompatActivity {
         Log.d("event DELETING:", Integer.toString(et.getId()));
         dbHandler.deleteEvent(dateView.getText().toString(), et.getId());
     }
-
-
-    //notes listener thing TextWatcher
-    /*notes.addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            MyDBHandler dbHandler = new MyDBHandler(this, null, null, 4);
-
-            String currentDate = Integer.toString(thisDay.get(Calendar.YEAR)) +
-                    "-" + Integer.toString(thisDay.get(Calendar.MONTH)) +
-                    "-" + Integer.toString(thisDay.get(Calendar.DAY_OF_MONTH));
-
-            Note note = new Note(productBox.getText().toString(), quantity/* descirption  and data*///);
-
-            /*dbHandler.addProduct(product);
-            productBox.setText("");
-            quantityBox.setText("");
-        }
-    });*/
-
-    // Something needs to happen here
-    //gLayout.setOnFocusChangeListener(R.getViewById().onFocusChangeListener l);
 }
