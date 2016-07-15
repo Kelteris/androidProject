@@ -276,10 +276,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void createReminder(int textLocation) {
         EditText editText = (EditText) findViewById(300 + textLocation);
-        String string = editText.getText().toString() + " at " + strHours[textLocation];
+        String string = editText.getText().toString();
         if(string.matches("")) {
             ;
         } else {
+            string = string + " at " + strHours[textLocation];
+            if(textLocation < 8)
+            {
+                string = string + " AM";
+            } else {
+                string = string + " PM";
+            }
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.rm_planner_icon)
