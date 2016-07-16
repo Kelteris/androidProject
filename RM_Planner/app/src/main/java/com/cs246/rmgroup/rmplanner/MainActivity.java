@@ -1,73 +1,49 @@
 package com.cs246.rmgroup.rmplanner;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URL;
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -249,14 +225,14 @@ public class MainActivity extends AppCompatActivity {
                 final int textLocation = i;
                 btn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        showEventOptions((View) btn, textLocation);
+                        showEventOptions(textLocation);
                     }
                 });
             }
         }
     }
 
-    public void showEventOptions(View view, final int textLocation) {
+    public void showEventOptions(final int textLocation) {
         CharSequence options[] = new CharSequence[]{"Set Reminder"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Options");
@@ -278,10 +254,10 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(300 + textLocation);
         String string = editText.getText().toString();
         if(string.matches("")) {
-            ;
+            Log.v("Create Reminder", "an attempt to create an empty reminder was made");
         } else {
             string = string + " at " + strHours[textLocation];
-            if(textLocation < 8)
+            if(textLocation < 8 || textLocation == 33)
             {
                 string = string + " AM";
             } else {
@@ -458,6 +434,7 @@ public class MainActivity extends AppCompatActivity {
                         tmpBtn.setVisibility(View.GONE);
                         Log.d("COG", "Lost the focus");
                     } else {
+                        Log.i("COG", "The object was null");
                         // do nothing, the object is null
                     }
                 }
@@ -541,12 +518,6 @@ public class MainActivity extends AppCompatActivity {
                 .edit()
                 .putStringSet("tasks_set", tasksSet)
                 .commit();
-        /*
-        SharedPreferences settings = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("GoalStorage", goal);
-
-        editor.commit();*/
     }
 
     public void saveEvent(View view) {
