@@ -166,15 +166,12 @@ public class MyDBHandler extends SQLiteOpenHelper{
         return result;
     }
 
-    public void addEvent(Event event) {
+    public void addEvent(int hour, String description, String day) {
 
         ContentValues values = new ContentValues();
-        values.put(EVENT_HOUR, event.get_hour());
-        values.put(EVENT_DESCRIPTION, event.get_description());
-
-
-        values.put(EVENT_DAY, event.get_day());
-
+        values.put(EVENT_HOUR, hour);
+        values.put(EVENT_DESCRIPTION, description);
+        values.put(EVENT_DAY, day);
 
         SQLiteDatabase db = this.getWritableDatabase();
 

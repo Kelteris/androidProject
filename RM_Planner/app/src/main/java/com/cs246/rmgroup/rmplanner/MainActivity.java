@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         leftLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
             public void onSwipeLeft() {
@@ -306,7 +305,13 @@ public class MainActivity extends AppCompatActivity {
                     year));
             toggleMenu(null);
             lookupNote(null);
-            lookupEvent();
+            Thread thread = new Thread(){
+                public void run(){
+                    lookupEvent();
+                }
+            };
+
+            thread.start();
         }
     }
 
@@ -575,9 +580,9 @@ public class MainActivity extends AppCompatActivity {
     public void newEvent(EditText et) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 4);
         Log.d("event SAVING:", Integer.toString(et.getId()));
-        Event event = new Event(dateView.getText().toString(), et.getText().toString(), et.getId());
+        //Event event = new Event(dateView.getText().toString(), et.getText().toString(), et.getId());
         //Log.d("event SAVING:", Integer.toString(view.getId() - 300));
-        dbHandler.addEvent(event);
+        dbHandler.addEvent(et.getId(), et.getText().toString(), dateView.getText().toString());
     }
 
     public void removeEvent(EditText et) {
