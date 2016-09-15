@@ -1,5 +1,6 @@
 package com.cs246.rmgroup.rmplanner;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -49,6 +50,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
     boolean isMainActivity = true;
+    boolean isLoading = false;
     static String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30",
             "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00",
@@ -145,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Swipe Gestures Listener Setup
-    private void setUpListeners() {
+    protected void setUpListeners() {
         mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
             public void onSwipeRight() {
@@ -252,12 +254,11 @@ public class MainActivity extends AppCompatActivity {
     public void createReminder(int textLocation) {
         EditText editText = (EditText) findViewById(300 + textLocation);
         String string = editText.getText().toString();
-        if(string.matches("")) {
+        if (string.matches("")) {
             Log.v("Create Reminder", "an attempt to create an empty reminder was made");
         } else {
             string = string + " at " + strHours[textLocation];
-            if(textLocation < 8 || textLocation == 33)
-            {
+            if (textLocation < 8 || textLocation == 33) {
                 string = string + " AM";
             } else {
                 string = string + " PM";
@@ -305,18 +306,14 @@ public class MainActivity extends AppCompatActivity {
                     year));
             toggleMenu(null);
             lookupNote(null);
-            Thread thread = new Thread(){
-                public void run(){
-                    lookupEvent();
-                }
-            };
+            lookupEvent();
 
-            thread.start();
         }
     }
 
     //Lame Version for Dialog
-    public static class DatePickerFragment extends DialogFragment
+    @SuppressLint("ValidFragment")
+    public class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -526,12 +523,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveEvent(View view) {
-        //Log.d("EVENT", "Saving ID of: " + Integer.toString(view.getId()) +
-        //        " of the hour " + strHours[view.getId() - 300]);
-        //return et.getText().toString();
-        //removeEvent(null, et);
-        removeEvent((EditText) view);
-        newEvent((EditText) view);
+        if (!isLoading) {
+            removeEvent((EditText) view);
+            newEvent((EditText) view);
+        }
     }
 
     public static void lookupNote(View view) {
@@ -557,11 +552,12 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.deleteNote(dateView.getText().toString());
     }
 
-    public static void lookupEvent() {
+    public void lookupEvent() {
         MyDBHandler dbHandler = new MyDBHandler(baseContext, null, null, 4);
         Event event = null;
         EditText et = null;
 
+        isLoading = true;
         for (int i = 0; i < strHours.length; i++) {
             et = (EditText) baseActivity.findViewById(300 + i);
 
@@ -575,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        isLoading = false;
     }
 
     public void newEvent(EditText et) {
