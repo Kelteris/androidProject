@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout mainLayout;
     DatePicker dPicker;
     Logging log;
-    static int goalIterator = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         lookupEvent();
     }
 
-    //How we add to the "to-do" list
 
     /**
      * Adds goals to the "to-do" list
@@ -204,7 +203,8 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < strHours.length; i++) {
             final EditText et = (EditText) findViewById(300 + i);
-            final ImageButton btn = (ImageButton) findViewById(200 + i);
+            /*Uncomment below to allow the cog to show for options*/
+            //final ImageButton btn = (ImageButton) findViewById(200 + i);
             if (et != null) {
                 et.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -222,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
 
+            /* Uncomment for button to show and be used
             if (btn != null) {
                 final int textLocation = i;
                 btn.setOnClickListener(new View.OnClickListener() {
@@ -229,10 +230,16 @@ public class MainActivity extends AppCompatActivity {
                         showEventOptions(textLocation);
                     }
                 });
-            }
+            }*/
         }
     }
 
+    /**
+     * Inserts reminder for event
+     *
+     * @param textLocation
+     * @author Asa Skousen
+     */
     public void showEventOptions(final int textLocation) {
         CharSequence options[] = new CharSequence[]{"Set Reminder"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -304,10 +311,9 @@ public class MainActivity extends AppCompatActivity {
                     new DateFormatSymbols().getMonths()[monthOfYear],
                     dayOfMonth,
                     year));
-            toggleMenu(null);
             lookupNote(null);
             lookupEvent();
-
+            toggleMenu(null);
         }
     }
 
@@ -426,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
             et.setMaxWidth(10);
             //Set Drawable
             et.setBackgroundResource(R.drawable.draw_back);
-            et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            /*et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 public void onFocusChange(View v, boolean hasFocus) {
                     ImageButton tmpBtn = (ImageButton) findViewById(v.getId() - 100);
                     if (tmpBtn != null && hasFocus) {
@@ -440,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
                         // do nothing, the object is null
                     }
                 }
-            });
+            });*/
             gLayout.addView(et, params);
         }
 
@@ -475,7 +481,14 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-
+    /**
+     * Mix two colors to use in porter_duff blender
+     *
+     * @param color1
+     * @param color2
+     * @param amount
+     * @author Travis Confer
+     */
     public static int mixTwoColors(int color1, int color2, float amount) {
         //Bitshift values for each hexColor
         final byte ALPHA_CHANNEL = 24;
@@ -501,6 +514,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param px
      * @param context
+     *
+     * @author Travis Confer
      * @return
      */
     public static float pixelsToDp(float px, Context context) {
