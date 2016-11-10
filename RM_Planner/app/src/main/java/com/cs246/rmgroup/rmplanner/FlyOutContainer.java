@@ -99,7 +99,7 @@ public class FlyOutContainer extends LinearLayout {
         ImageButton ib = (ImageButton) findViewById(R.id.menuButton);
         switch(this.menuCurrentState) {
             case CLOSED:
-                ib.setBackgroundResource(R.drawable.arrow_left);
+                ib.setBackgroundResource(R.drawable.arrow_right2);
                 this.menuCurrentState = menuState.OPENING;
                 this.menu.setVisibility(View.VISIBLE);
                 this.menuAnimationScroller.startScroll(0, 0, this.getMenuWidth(),
@@ -107,7 +107,7 @@ public class FlyOutContainer extends LinearLayout {
                 Log.d("OPENING", "Changing menuState to OPENING");
                 break;
             case OPEN:
-                ib.setBackgroundResource(R.drawable.arrow_right);
+                ib.setBackgroundResource(R.drawable.arrow_left2);
                 this.menuCurrentState = menuState.CLOSING;
                 this.menuAnimationScroller.startScroll(this.currentContentOffset,
                         0, -this.currentContentOffset, 0, menuAnimationDuration);
