@@ -15,8 +15,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.media.MediaFormat;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -28,8 +28,10 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -384,13 +386,24 @@ public class MainActivity extends AppCompatActivity {
             params.setGravity(Gravity.FILL);
             TextView tv = new TextView(this);
             tv.setText(strHours[i]);
-            tv.setTextSize(pixelsToDp(35, this));
+            //tv.setTextSize(pixelsToDp(35, this));
+            tv.setTextSize(13);
             tv.setTextColor(Color.BLACK);
             tv.setPadding(10, 15, 5, 10);
             tv.setId(i + 100);
+
+            Drawable background;
             //Set Drawable
-            Drawable background = ResourcesCompat.getDrawable(getResources(),
-                    R.drawable.draw_back_left, null);
+            if (i != 0 && i != strHours.length - 1) {
+                background = ResourcesCompat.getDrawable(getResources(),
+                        R.drawable.draw_hours_middle, null);
+            } else if (i == (strHours.length - 1)){
+                background = ResourcesCompat.getDrawable(getResources(),
+                        R.drawable.draw_hours_bottom, null);
+            } else {
+                background = ResourcesCompat.getDrawable(getResources(),
+                        R.drawable.draw_hours_top, null);
+            }
 
             if (i < (strHours.length / 2)) {
                 ratio = (i / (float) (strHours.length / 2));
@@ -424,12 +437,16 @@ public class MainActivity extends AppCompatActivity {
             et.setLayoutParams(new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
-            et.setTextSize(pixelsToDp(55, this));
+            et.setTextSize(20);
             et.setText(null);
             et.setPadding(10, 3, 3, 5);
             et.setId(i + 300);
             et.setEms(8); // This just prevents text from going off the screen
             et.setMaxWidth(10);
+            et.setHorizontallyScrolling(false);
+            et.setSingleLine();
+
+            et.setImeOptions(EditorInfo.IME_ACTION_DONE);
             //Set Drawable
             et.setBackgroundResource(R.drawable.draw_back);
             /*et.setOnFocusChangeListener(new View.OnFocusChangeListener() {

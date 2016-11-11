@@ -92,7 +92,7 @@ public class WidgetPlanner extends AppWidgetProvider {
         count = gLayout.getChildCount();
         for (int i = 0; i < count; i++) {
             View v = gLayout.getChildAt(i);
-            v.setBackgroundResource(R.drawable.draw_back_left);
+            v.setBackgroundResource(R.drawable.draw_hours_top);
             //v.setBackgroundColor(Integer.parseInt("ACACAC", 16) + (50 * i));
             if (gLayout.getChildAt(i) instanceof EditText) {
                 EditText e = (EditText) gLayout.getChildAt(i);
