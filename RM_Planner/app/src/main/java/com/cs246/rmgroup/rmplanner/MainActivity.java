@@ -24,6 +24,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -443,10 +444,15 @@ public class MainActivity extends AppCompatActivity {
             et.setId(i + 300);
             et.setEms(8); // This just prevents text from going off the screen
             et.setMaxWidth(10);
-            et.setHorizontallyScrolling(false);
-            et.setSingleLine();
 
+            et.setInputType(InputType.TYPE_CLASS_TEXT |
+                    InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
+            et.setSingleLine(false);
+            et.setHorizontallyScrolling(false);
+            et.setMaxLines(Integer.MAX_VALUE);
             et.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+
             //Set Drawable
             et.setBackgroundResource(R.drawable.draw_back);
             /*et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
