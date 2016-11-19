@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaFormat;
 import android.preference.PreferenceManager;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
     boolean isMainActivity = true;
     boolean isLoading = false;
-    static String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
+    static String[] strHours = {"5:00", "6:00", "7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30",
             "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00",
             "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30",
@@ -388,6 +389,7 @@ public class MainActivity extends AppCompatActivity {
             TextView tv = new TextView(this);
             tv.setText(strHours[i]);
             //tv.setTextSize(pixelsToDp(35, this));
+            tv.setTypeface(null, Typeface.BOLD);
             tv.setTextSize(13);
             tv.setTextColor(Color.BLACK);
             tv.setPadding(10, 15, 5, 10);

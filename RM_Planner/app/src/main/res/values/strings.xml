@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RM Planner</string>
-    <string name="date_format">Date: %1$s %2$d, %3$d</string>
+    <string name="date_format">   %1$s %2$d, %3$d</string>
     <string name="to_do">To-Do List </string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
