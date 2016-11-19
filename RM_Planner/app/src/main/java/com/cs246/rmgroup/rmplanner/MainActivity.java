@@ -25,6 +25,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
     boolean isMainActivity = true;
     boolean isLoading = false;
-    static String[] strHours = {"5:00", "6:00", "7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
+    static String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
             "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30",
             "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00",
             "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30",
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 .getStringSet("tasks_set", new HashSet<String>());
 
         list = new ArrayList<String>(tasksSet);
-
         buildPlannerView();
         setUpListeners();
         lookupNote(null);
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("created a dialog", "creating box");
         String string = "created a dialog" + "creating box";
         log.insertLog(string);
+
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Add a new task")
                 .setView(taskEditText)
@@ -446,6 +447,7 @@ public class MainActivity extends AppCompatActivity {
             et.setId(i + 300);
             et.setEms(8); // This just prevents text from going off the screen
             et.setMaxWidth(10);
+            et.setFilters( new InputFilter[] {new InputFilter.LengthFilter(50)});
 
             et.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
             et.setSingleLine(false);

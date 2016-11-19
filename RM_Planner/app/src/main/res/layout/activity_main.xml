@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cs246.rmgroup.rmplanner.FlyOutContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.cs246.rmgroup.rmplanner.MainActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/sideLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/sideLayout"
-        android:orientation="vertical"
-        android:background="@drawable/draw_main_left">
+        android:background="@drawable/draw_main_left"
+        android:orientation="vertical">
 
         <DatePicker
             android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginTop="20dp"
             android:clickable="true"
             android:onClick="showDatePickerDialog" />
 
@@ -29,17 +29,17 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/draw_main_right">
+        android:background="@drawable/draw_main_right"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/activity_margin_left"
             android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingStart="@dimen/activity_horizontal_margin"
             android:paddingEnd="5dp"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:layout_marginStart="@dimen/activity_margin_left">
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
 
             <TextView
@@ -49,12 +49,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimary"
-                android:paddingStart="10dp"
-                android:paddingEnd="5dp"
+                android:background="@drawable/draw_back_top"
                 android:onClick="showDatePickerDialog"
-                android:background="@drawable/draw_back_top" />
+                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:id="@+id/linLay1"
@@ -62,65 +62,101 @@
                 android:layout_height="400dp"
                 android:layout_below="@+id/dateView">
 
-                <ScrollView
-                    android:id="@+id/scrollView"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/draw_back_scroll">
+                <LinearLayout
+                    android:layout_weight="0.65"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
 
-                    <GridLayout
-                        android:id="@+id/gridLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:horizontalSpacing="1dp"
-                        android:verticalSpacing="1dp"></GridLayout>
+                    <ScrollView
+                        android:id="@+id/scrollView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/draw_back_scroll">
 
-
-                </ScrollView>
+                        <GridLayout
+                            android:id="@+id/gridLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:horizontalSpacing="1dp"
+                            android:verticalSpacing="1dp">
+                        </GridLayout>
+                    </ScrollView>
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/notes"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="0.35"
                     android:background="@drawable/draw_notes"
                     android:gravity="center_horizontal"
                     android:hint="@string/notes_hint"
                     android:textSize="15sp" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/list_todo_wrapper"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_marginStart="5dp"
                 android:layout_below="@id/linLay1"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/menuButton"
                 android:background="@drawable/draw_list_wrapper"
-                android:layout_toEndOf="@+id/menuButton">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/todo_title"
-                    android:text="@string/to_do"
-                    android:gravity="center_horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="11sp"
-                    android:textColor="#000000"/>
+                    android:gravity="center_horizontal"
+                    android:text="@string/to_do"
+                    android:textColor="#000000"
+                    android:textSize="11sp" />
 
                 <ListView
                     android:id="@+id/list_todo"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginRight="2dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/draw_list_view"/>
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="13dp"
+                    android:background="@drawable/draw_list_view"
+                    tools:listitem="" />
             </LinearLayout>
 
-            <ImageButton
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:onClick="addToList"
+                android:src="@drawable/plus"
+                app:borderWidth="3dp"
+                app:fabSize="mini"
+                app:rippleColor="@color/colorPrimary"
+                app:elevation="2dp"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/menuButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linLay1"
+                android:layout_margin="5dp"
+                android:onClick="toggleMenu"
+                android:src="@drawable/calendar1"
+                app:borderWidth="4dp"
+                app:elevation="3dp"
+                app:fabSize="normal"
+                app:rippleColor="@color/colorPrimary" />
+
+            <!--ImageButton
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="1dp"
@@ -129,9 +165,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:onClick="addToList"
-                android:background="@drawable/plus_button2" />
+                android:background="@drawable/plus_button2" /-->
 
-            <ImageButton
+            <!--ImageButton
                 android:id="@+id/menuButton"
                 android:layout_width="40dp"
                 android:layout_height="80dp"
@@ -140,8 +176,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="5dp"
                 android:onClick="toggleMenu"
-                android:background="@drawable/arrow_left2" />
-
+                android:background="@drawable/arrow_left2" /-->
 
         </RelativeLayout>
     </LinearLayout>
