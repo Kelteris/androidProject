@@ -445,8 +445,7 @@ public class MainActivity extends AppCompatActivity {
             et.setEms(8); // This just prevents text from going off the screen
             et.setMaxWidth(10);
 
-            et.setInputType(InputType.TYPE_CLASS_TEXT |
-                    InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
+            et.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
             et.setSingleLine(false);
             et.setHorizontallyScrolling(false);
             et.setMaxLines(Integer.MAX_VALUE);

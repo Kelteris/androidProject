@@ -5,4 +5,5 @@
     <dimen name="hour_radius">12dp</dimen>
     <dimen name="activity_margin_left">7dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="list_radius">22dp</dimen>
 </resources>

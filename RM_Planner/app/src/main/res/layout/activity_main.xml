@@ -20,7 +20,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="15dp"
             android:clickable="true"
-            android:onClick="showDatePickerDialog"/>
+            android:onClick="showDatePickerDialog" />
 
 
     </LinearLayout>
@@ -54,20 +54,20 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="5dp"
                 android:onClick="showDatePickerDialog"
-                android:background="@drawable/draw_back_top"/>
+                android:background="@drawable/draw_back_top" />
 
             <LinearLayout
                 android:id="@+id/linLay1"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:layout_below="@+id/dateView">
+
                 <ScrollView
                     android:id="@+id/scrollView"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/draw_back_scroll"
-                    >
+                    android:background="@drawable/draw_back_scroll">
 
                     <GridLayout
                         android:id="@+id/gridLayout"
@@ -75,8 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:horizontalSpacing="1dp"
-                        android:verticalSpacing="1dp">
-                    </GridLayout>
+                        android:verticalSpacing="1dp"></GridLayout>
 
 
                 </ScrollView>
@@ -89,29 +88,48 @@
                     android:background="@drawable/draw_notes"
                     android:gravity="center_horizontal"
                     android:hint="@string/notes_hint"
-                    android:textSize="15sp"/>
-
+                    android:textSize="15sp" />
             </LinearLayout>
 
-            <ListView
-                android:id="@+id/list_todo"
+            <LinearLayout
+                android:id="@+id/list_todo_wrapper"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_marginStart="5dp"
                 android:layout_below="@id/linLay1"
-                android:background="@drawable/draw_list_view"
-                android:layout_toEndOf="@+id/menuButton"/>
+                android:background="@drawable/draw_list_wrapper"
+                android:layout_toEndOf="@+id/menuButton">
+
+                <TextView
+                    android:id="@+id/todo_title"
+                    android:text="@string/to_do"
+                    android:gravity="center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textSize="11sp"
+                    android:textColor="#000000"/>
+
+                <ListView
+                    android:id="@+id/list_todo"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/draw_list_view"/>
+            </LinearLayout>
 
             <ImageButton
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="1dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginEnd="1dp"
                 android:id="@+id/add_task"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:onClick="addToList"
-                android:background="@drawable/plus_button2"/>
+                android:background="@drawable/plus_button2" />
 
             <ImageButton
                 android:id="@+id/menuButton"
@@ -122,7 +140,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="5dp"
                 android:onClick="toggleMenu"
-                android:background="@drawable/arrow_left2"/>
+                android:background="@drawable/arrow_left2" />
 
 
         </RelativeLayout>
