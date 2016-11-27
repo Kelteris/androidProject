@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:start="1dp"
-        android:top="1dp"
-        android:right="-14dp"
-        android:bottom="-14dp">
+        android:left="-2dp"
+        android:top="0dp"
+        android:right="-16dp"
+        android:bottom="-16dp">
         <shape>
             <solid android:color="#00ffffff" />
             <stroke
-                android:width="14dp"
+                android:width="15dp"
                 android:color="#acacac" />
         </shape>
     </item>
-    <item>
+    <item
+        android:top="-4dp">
         <shape>
             <corners android:bottomRightRadius="@dimen/list_radius"/>
             <solid android:color="#00ffffff" />

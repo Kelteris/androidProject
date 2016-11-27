@@ -21,8 +21,6 @@
             android:layout_marginTop="20dp"
             android:clickable="true"
             android:onClick="showDatePickerDialog" />
-
-
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -65,7 +63,9 @@
                 <LinearLayout
                     android:layout_weight="0.65"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:foreground="@drawable/draw_scroll_overlay">
 
                     <ScrollView
                         android:id="@+id/scrollView"
@@ -78,7 +78,7 @@
                             android:id="@+id/gridLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginStart="0dp"
                             android:horizontalSpacing="1dp"
                             android:verticalSpacing="1dp">
                         </GridLayout>
