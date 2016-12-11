@@ -15,9 +15,11 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaFormat;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,6 +35,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -46,6 +49,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,7 +61,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> list;
     boolean isMainActivity = true;
     boolean isLoading = false;
     static String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
@@ -67,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
     static EditText notes;
     static Calendar currentDay;
     ArrayAdapter<String> adapter;
+
     FlyOutContainer root;
-    ListView listView;
+    SwipeMenuListView listView;
     GridLayout gLayout = null;
     LinearLayout leftLayout;
     LinearLayout mainLayout;
@@ -102,12 +111,34 @@ public class MainActivity extends AppCompatActivity {
                 currentDay.get(Calendar.DAY_OF_MONTH),
                 currentDay.get(Calendar.YEAR)));
 
-        log = Logging.getInstance();
+        listView = (SwipeMenuListView) findViewById(R.id.list_todo);
 
         Set<String> tasksSet = PreferenceManager.getDefaultSharedPreferences(baseContext)
                 .getStringSet("tasks_set", new HashSet<String>());
+        list = new ArrayList<>(tasksSet);
 
-        list = new ArrayList<String>(tasksSet);
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(100);
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_delete_black_24dp);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        listView.setMenuCreator(creator);
+        listView.setSwipeDirection(SwipeMenuListView.DIRECTION_RIGHT);
+
         buildPlannerView();
         setUpListeners();
         lookupNote(null);
@@ -123,10 +154,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public void addToList(View v) {
         final EditText taskEditText = new EditText(this);
-        Log.i("created a dialog", "creating box");
-        String string = "created a dialog" + "creating box";
-        log.insertLog(string);
-
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Add a new task")
                 .setView(taskEditText)
@@ -152,6 +179,21 @@ public class MainActivity extends AppCompatActivity {
 
     //Swipe Gestures Listener Setup
     protected void setUpListeners() {
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        list.remove(position);
+                        //adapter.notifyDataSetChanged();
+                        saveGoals(list);
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return false;
+            }
+        });
+
         mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
             public void onSwipeRight() {
@@ -166,17 +208,6 @@ public class MainActivity extends AppCompatActivity {
                 if (!isMainActivity) {
                     Log.d("SWIPE", "Swiping left!");
                     toggleMenu(null);
-                }
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                if (list.get(position) != null) {
-                    list.remove(position);
-                    adapter.notifyDataSetChanged();
-                    saveGoals(list);
                 }
             }
         });
@@ -277,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
             }
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.rm_planner_icon)
+                            .setSmallIcon(R.mipmap.journal_launcher)
                             .setContentTitle("RM Planner")
                             .setContentText(string);
             // Creates an explicit intent for an Activity in your app
@@ -401,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
             if (i != 0 && i != strHours.length - 1) {
                 background = ResourcesCompat.getDrawable(getResources(),
                         R.drawable.draw_hours_middle, null);
-            } else if (i == (strHours.length - 1)){
+            } else if (i == (strHours.length - 1)) {
                 background = ResourcesCompat.getDrawable(getResources(),
                         R.drawable.draw_hours_bottom, null);
             } else {
@@ -447,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
             et.setId(i + 300);
             et.setEms(8); // This just prevents text from going off the screen
             et.setMaxWidth(10);
-            et.setFilters( new InputFilter[] {new InputFilter.LengthFilter(50)});
+            et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
 
             et.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
             et.setSingleLine(false);
@@ -499,12 +530,23 @@ public class MainActivity extends AppCompatActivity {
 
         /******************************************************/
 
-        listView = (ListView) findViewById(R.id.list_todo);
-        adapter = new ArrayAdapter<>(
+        /*adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_selectable_list_item,
-                list);
-        listView.setAdapter(adapter);
+                list);*/
+
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item,
+                list) {
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view=View.inflate(MainActivity.this, android.R.layout.simple_list_item_1, null);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                textView.setText(list.get(position));
+                textView.setHeight(120);
+                return view;
+            }
+        });
     }
 
     /**
@@ -540,9 +582,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param px
      * @param context
-     *
-     * @author Travis Confer
      * @return
+     * @author Travis Confer
      */
     public static float pixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
