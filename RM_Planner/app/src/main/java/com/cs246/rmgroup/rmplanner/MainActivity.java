@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     static Context baseContext;
     static EditText notes;
     static Calendar currentDay;
-    ArrayAdapter<String> adapter;
+    ArrayAdapter adapter;
 
     FlyOutContainer root;
     SwipeMenuListView listView;
@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout leftLayout;
     LinearLayout mainLayout;
     DatePicker dPicker;
-    Logging log;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
                         0x3F, 0x25)));
                 // set item width
-                deleteItem.setWidth(100);
+                deleteItem.setWidth(120);
                 // set a icon
                 deleteItem.setIcon(R.drawable.ic_delete_black_24dp);
                 // add to menu
@@ -185,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (index) {
                     case 0:
                         list.remove(position);
-                        //adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                         saveGoals(list);
                         break;
                 }
@@ -530,23 +528,19 @@ public class MainActivity extends AppCompatActivity {
 
         /******************************************************/
 
-        /*adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_selectable_list_item,
-                list);*/
-
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item,
-                list) {
+        adapter = new ArrayAdapter<String> (this, android.R.layout.simple_selectable_list_item, list){
             @NonNull
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view=View.inflate(MainActivity.this, android.R.layout.simple_list_item_1, null);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 textView.setText(list.get(position));
-                textView.setHeight(120);
+                textView.setHeight(100);
                 return view;
             }
-        });
+        };
+
+        listView.setAdapter(adapter);
     }
 
     /**
