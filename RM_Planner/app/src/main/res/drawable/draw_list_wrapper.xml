@@ -13,6 +13,18 @@
         </shape>
     </item>
     <item
+        android:top="15dp"
+        android:right="-6dp"
+        android:bottom="-6dp"
+        android:left="13dp">
+        <shape>
+            <corners android:bottomRightRadius="@dimen/list_radius"/>
+            <stroke
+                android:width="0.5dp"
+                android:color="#000000" />
+        </shape>
+    </item>
+    <item
         android:top="-4dp">
         <shape>
             <corners android:bottomRightRadius="@dimen/list_radius"/>

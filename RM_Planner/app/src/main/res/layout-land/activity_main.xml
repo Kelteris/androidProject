@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cs246.rmgroup.rmplanner.MainActivity"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/sideLayout"
@@ -62,7 +62,7 @@
                 android:layout_below="@+id/dateView">
 
                 <LinearLayout
-                    android:layout_weight="0.65"
+                    android:layout_weight="0.40"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="4dp"
@@ -90,50 +90,49 @@
                     android:id="@+id/notes"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
+                    android:layout_weight="0.30"
                     android:background="@drawable/draw_notes"
                     android:gravity="center_horizontal"
                     android:hint="@string/notes_hint"
                     android:textSize="15sp" />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/list_todo_wrapper"
+                    android:layout_height="fill_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.30"
+                    android:layout_marginStart="-1dp"
+                    android:background="@drawable/draw_list_wrapper"
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/list_todo_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_below="@id/linLay1"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/menuButton"
-                android:background="@drawable/draw_list_wrapper"
-                android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/todo_title"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/to_do"
+                        android:textColor="#000000"
+                        android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/todo_title"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/to_do"
-                    android:textColor="#000000"
-                    android:textSize="11sp" />
+                    <!--ListView
+                        android:id="@+id/list_todo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="13dp"
+                        android:background="@drawable/draw_list_view"
+                        tools:listitem="" /-->
 
-                <!--ListView
-                    android:id="@+id/list_todo"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="13dp"
-                    android:background="@drawable/draw_list_view"
-                    tools:listitem="" /-->
+                    <com.baoyz.swipemenulistview.SwipeMenuListView
+                        android:id="@+id/list_todo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="13dp"
+                        android:background="@drawable/draw_list_view"/>
+                </LinearLayout>
 
-                <com.baoyz.swipemenulistview.SwipeMenuListView
-                    android:id="@+id/list_todo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="13dp"
-                    android:background="@drawable/draw_list_view"/>
             </LinearLayout>
 
             <android.support.design.widget.FloatingActionButton

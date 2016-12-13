@@ -11,6 +11,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -18,6 +19,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaFormat;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -40,6 +42,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -53,6 +56,10 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -62,6 +69,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> list;
+    ArrayAdapter adapter;
     boolean isMainActivity = true;
     boolean isLoading = false;
     static String[] strHours = {"7:00", "8:00", "9:00", "9:30", "10:00", "10:30",
@@ -74,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
     static Context baseContext;
     static EditText notes;
     static Calendar currentDay;
-    ArrayAdapter adapter;
 
     FlyOutContainer root;
     SwipeMenuListView listView;
@@ -82,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout leftLayout;
     LinearLayout mainLayout;
     DatePicker dPicker;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +153,9 @@ public class MainActivity extends AppCompatActivity {
         setUpListeners();
         lookupNote(null);
         lookupEvent();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -183,7 +198,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (index) {
                     case 0:
                         list.remove(position);
-                        adapter.notifyDataSetChanged();
+                        //adapter.notifyDataSetChanged();
+                        for (String s : list) {
+                            Log.d("TRY", "Outputting: " + s);
+                        }
+
                         saveGoals(list);
                         break;
                 }
@@ -334,6 +353,42 @@ public class MainActivity extends AppCompatActivity {
             // 500 is the id, use it if you want to update it
             mNotificationManager.notify(500, mBuilder.build());
         }
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 
     //Fancy version that we'll use
@@ -528,17 +583,20 @@ public class MainActivity extends AppCompatActivity {
 
         /******************************************************/
 
-        adapter = new ArrayAdapter<String> (this, android.R.layout.simple_selectable_list_item, list){
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item, list) {
             @NonNull
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                View view=View.inflate(MainActivity.this, android.R.layout.simple_list_item_1, null);
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                //View view = View.inflate(MainActivity.this, android.R.layout.simple_list_item_1, null);
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 textView.setText(list.get(position));
-                textView.setHeight(100);
+                textView.setHeight(120);
                 return view;
             }
         };
+
+        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item, list);
 
         listView.setAdapter(adapter);
     }
@@ -591,11 +649,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveGoals(ArrayList<String> goalList) {
+        adapter.notifyDataSetChanged();
         Set<String> tasksSet = new HashSet<String>(goalList);
         PreferenceManager.getDefaultSharedPreferences(baseContext)
                 .edit()
                 .putStringSet("tasks_set", tasksSet)
-                .commit();
+                .apply();
     }
 
     public void saveEvent(View view) {
